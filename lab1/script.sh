@@ -11,8 +11,13 @@
 
 ## Write your script below this line ##
 
-# our script took 22 seconds to interpret 10 million entries
-
+## our script time to interpret 100 million entries
+#
+#  real: 3 mins 58.178 seconds
+#  user: 10 mins 55.256 seconds
+#  sys: 0 mins 7.140 seconds
+#
+##
 function getoutput() {
 
     #current course position
