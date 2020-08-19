@@ -74,9 +74,6 @@ function joinfolder() {
 #how much data do you need( default is 100 million )
 data_count=${1:-100000000}
 
-#roll numbers of our teammates
-roll_no=${2:-[111801042, 111801040, 111801036, 111801015]}
-
 #where to generate the data
 data_file="master.csv"
 
@@ -88,8 +85,7 @@ make clean
 make
 
 #generate input
-./input_generator $data_count $roll_no > $data_file
-cat $data_file > "mas.csv"
+./input_generator $data_count 111801042 111801040 111801036 111801015 > $data_file
 
 #fiter in such a way that if a student obtains different marks in the same course, then take the highest and write back to the master file
 sort -r -t "," -nk3 $data_file | sort -u -t "," -k 1,1 -k 2,2 -s -o $data_file
@@ -186,4 +182,3 @@ do
     #replace the last comma in a file with an empty string
     sed -i "s/,$//g" $f
 done
-# rm master.csv
