@@ -89,6 +89,7 @@ make
 
 #generate input
 ./input_generator $data_count $roll_no > $data_file
+cat $data_file > "mas.csv"
 
 #fiter in such a way that if a student obtains different marks in the same course, then take the highest and write back to the master file
 sort -r -t "," -nk3 $data_file | sort -u -t "," -k 1,1 -k 2,2 -s -o $data_file
@@ -173,4 +174,16 @@ do
   sed -i "1 i\student,$branch_head_row" "${branch}.csv"
 done
 
+
+#since we used courses folder in a different way so as to make join easier, we bring courses to its required form
+courses_dir="courses/"
+
+#go through each course file
+for f in "$courses_dir*"
+do 
+    #replace multiple commas with one comma
+    sed -i "s/,\{2,\}/,/g" $f
+    #replace the last comma in a file with an empty string
+    sed -i "s/,$//g" $f
+done
 # rm master.csv
