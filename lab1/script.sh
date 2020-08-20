@@ -174,11 +174,4 @@ done
 #since we used courses folder in a different way so as to make join easier, we bring courses to its required form
 courses_dir="courses/"
 
-#go through each course file
-for f in "$courses_dir*"
-do 
-    #replace multiple commas with one comma
-    sed -i "s/,\{2,\}/,/g" $f
-    #replace the last comma in a file with an empty string
-    sed -i "s/,$//g" $f
-done
+find "$courses_dir" -type f -name "*.csv" | xargs sed -i -e "s/,\{2,\}/,/g" -e "s/,$//g"
