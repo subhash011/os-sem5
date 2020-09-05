@@ -54,31 +54,31 @@ $(LIBDYN)/lib%.so: $(LIBDYN)/%.o | $(LIBDYN)
 $(LIBDYN)/%.o: src/%.c | $(LIBDYN)
 	gcc -fPIC -c -I include $< -o $@
 
-run: $(EXE) | outdir
+run: $(EXE) | $(OUT_DIR)
 	./$(EXE) $(INPUT_FILE) $(OUT_FILE)
 
 prepare: $(EXE)
 	@echo "Enter the input file path: "; \
 	read inpath; echo "Enter the output file path: "; read outpath; ./$(EXE) $$inpath $$outpath	
 
-T1: $(EXE) | outdir
+T1: $(EXE) | $(OUT_DIR)
 	./$(EXE) $(INPUT_FILE) $(OUT_FILE) 1
 
-T2: $(EXE) | outdir
+T2: $(EXE) | $(OUT_DIR)
 	./$(EXE) $(INPUT_FILE) $(OUT_FILE) 2
 
-tests: $(EXE) | outdir
+tests: $(EXE) | $(OUT_DIR)
 	./testscript.sh
 
 .PHONY: test
-test: $(EXE) | outdir
+test: $(EXE) | $(OUT_DIR)
 	./testscript.sh
 
-test%: $(EXE) | outdir
+test%: $(EXE) | $(OUT_DIR)
 	./testscript.sh $@
 
-outdir:
-	mkdir -p outppm
+$(OUT_DIR):
+	mkdir -p $@
 
 $(EXEDIR):
 	mkdir -p $(EXEDIR)
@@ -93,5 +93,5 @@ $(LIBDYN):
 	mkdir -p $(LIBDYN)
 
 clean:
-	rm -rf $(EXEDIR) $(LIBDIR) $(OBJDIR) $(LIBDYN) $(OUTDIR)
+	rm -rf $(EXEDIR) $(LIBDIR) $(OBJDIR) $(LIBDYN) $(OUT_DIR)
 	rm -f *.ppm
