@@ -32,8 +32,7 @@
     <list default="true" id="4bba79d9-a84f-41a6-bbe7-b04912893b88" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outppm/output.ppm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,9 +66,9 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="lab2" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="inppm/input.ppm outppm/output.ppm" REDIRECT_INPUT="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="lab2" TARGET_NAME="lab2" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="lab2" RUN_TARGET_NAME="lab2">
@@ -102,6 +101,8 @@
       <workItem from="1599310291427" duration="4851000" />
       <workItem from="1599318631004" duration="91000" />
       <workItem from="1599322136316" duration="1900000" />
+      <workItem from="1599326446408" duration="120000" />
+      <workItem from="1599328201077" duration="172000" />
     </task>
     <servers />
   </component>

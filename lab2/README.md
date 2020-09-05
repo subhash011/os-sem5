@@ -1,3 +1,9 @@
+### If any of the commands fail, check the following
+ -  Check if the testscript.sh has executable permission
+ -  Check if the input directory(inppm) is present and it consists of input.ppm when needed
+ -  Check if the output directory(outppm) is present.
+
+
 ### Default input, output paths and the make utilty
  -  For input, in the current directory create a folder named **inppm** and add images to it.
  -  The make utility creates the output directory as **outppm**
