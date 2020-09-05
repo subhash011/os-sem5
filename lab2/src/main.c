@@ -17,9 +17,14 @@ int main(int argc, char **argv)
 {
     FILE *f;
 
-
     char *inFile = argv[1], *outFile = argv[2];
 
+    /*
+     * This tells what transformations to perform
+     * 1 -> RGB to grayscale
+     * 2 -> edge detection
+     * default value: 2
+     * */
     int transformation = 2;
 
     if(argc >= 4) {

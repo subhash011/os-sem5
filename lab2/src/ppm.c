@@ -5,6 +5,13 @@
 #include <stdlib.h>
 
 
+/*
+ * This code was referenced from
+ * https://stackoverflow.com/questions/42544773/convolution-for-edge-detection-in-c
+ * The I/O part of the code was taken and matrix operations were built by us
+ * */
+
+
 /*allocate memory to image and if successfull return sie of the image*/
 uint newImage(Image *pImg, uint w, uint h)
 {
