@@ -1,0 +1,15 @@
+#!/bin/bash
+
+inputs=($(find ./inppm -type f -name "*.ppm"))
+
+test_number="${1: -1}"
+
+if [ -z "$1" ]; then
+  for input in "${inputs[@]}"
+  do
+     ./bin/imageprocess "$input" "outppm/$(basename "$input" ".ppm").ppm" 2
+  done
+else
+    echo "${inputs[$(($test_number - 1))]}"
+   ./bin/imageprocess "${inputs[$(($test_number - 1))]}" "outppm/$(basename "${inputs[$(($test_number - 1))]}" ".ppm").ppm" 2
+fi

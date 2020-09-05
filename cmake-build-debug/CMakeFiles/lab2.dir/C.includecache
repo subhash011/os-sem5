@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/include/matrix.h
+
+/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/matrixmath.c
+include/matrix.h
+/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/include/matrix.h
+stdlib.h
+/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/stdlib.h
+stdio.h
+/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/stdio.h
+

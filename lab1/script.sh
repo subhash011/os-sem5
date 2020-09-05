@@ -56,7 +56,7 @@ function joinfolder() {
 
     #iterator to keep track of file count (course count)
     iterator=1
-    for f in ${files[@]};
+    for f in "${files[@]}";
     do
         #this function decides which columns to take in the join function
         retval=$(getoutput $iterator ${#files[@]})
@@ -99,7 +99,7 @@ rm -rf courses/
 mkdir -p "courses"
 
 #loop through each branch
-for roll in ${branches[@]}
+for roll in "${branches[@]}"
 do
   #assign the branch depending on roll number
   branch=""

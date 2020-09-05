@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/lab2.dir/src/main.c.o CMakeFiles/lab2.dir/src/matrix.c.o CMakeFiles/lab2.dir/src/matrixmath.c.o CMakeFiles/lab2.dir/src/ppm.c.o CMakeFiles/lab2.dir/src/transform.c.o  -o lab2 
