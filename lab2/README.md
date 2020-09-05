@@ -6,8 +6,8 @@
  -  The 'make prepare' command runs all prerequisite targets and prompts the user for the input file path and the output file path.
  -  'make tests' or 'make test' takes all the images in the **inppm** directory, performs both the transformations and writes the output to the **outppm** directory.
  -  'make testi' (replace the last 'i' with a number in the range 1 to number of images in the input directory) takes the ith image in the input directory, , performs both the transformations and writes the output to the **outppm** directory.
- -  'make T1' runs RGB-Grayscale and input path is input/input.ppm, output path is outppm/output.ppm
- -  'make T2' runs edge detection and input path is input/input.ppm, output path is outppm/output.ppm
+ -  'make T1' runs RGB-Grayscale and input path is **input/input.ppm**, output path is **outppm/output.ppm**
+ -  'make T2' runs edge detection and input path is **input/input.ppm**, output path is **outppm/output.ppm**
  -  'make liba' generates static libraries in the folder lib/
  -  'make libso' generate shared objects in the folder libs/
  -  'make clean' removes object files, libraries and output images if any.
