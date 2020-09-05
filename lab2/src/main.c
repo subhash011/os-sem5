@@ -4,6 +4,7 @@
 #include "../include/transform.h"
 #include "../include/ppm.h"
 
+
 void assign_array_to_matrix(matrix* mat, uint8 (*array)[3]) {
     for (int i = 0; i < (*mat)->rows; ++i) {
         for (int j = 0; j < (*mat)->cols; ++j) {
@@ -26,7 +27,7 @@ int main(int argc, char **argv)
     }
 
     if (!(f = fopen(inFile, "rb"))) {
-        fprintf(stderr, "Cannot open input file '%s'!\n", inFile);
+        fprintf(stderr, "Cannot open input file '%s', check if you have given the path to the input file!\n", inFile);
         return -1;
     }
 

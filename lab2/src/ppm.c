@@ -67,7 +67,7 @@ void writePPM(char *outFile, Image *pImg)
 {
     FILE*  f;
     if (!(f = fopen(outFile, "wb"))) {
-        fprintf(stderr, "Cannot create output file '%s'!\n", outFile);
+        fprintf(stderr, "Cannot create output file '%s'!, check if you have specified the output path and the directory exists\n", outFile);
         return;
     }
     if (!pImg || !pImg->data) return;

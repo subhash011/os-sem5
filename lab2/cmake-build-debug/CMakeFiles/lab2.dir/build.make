@@ -63,10 +63,10 @@ RM = /snap/clion/124/bin/cmake/linux/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/subhash011/Desktop/IIT-Palakkad/OS/lab2
+CMAKE_SOURCE_DIR = /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug
+CMAKE_BINARY_DIR = /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/lab2.dir/depend.make
@@ -79,68 +79,68 @@ include CMakeFiles/lab2.dir/flags.make
 
 CMakeFiles/lab2.dir/src/main.c.o: CMakeFiles/lab2.dir/flags.make
 CMakeFiles/lab2.dir/src/main.c.o: ../src/main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/lab2.dir/src/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/main.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/lab2.dir/src/main.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/main.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/main.c
 
 CMakeFiles/lab2.dir/src/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/lab2.dir/src/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/main.c > CMakeFiles/lab2.dir/src/main.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/main.c > CMakeFiles/lab2.dir/src/main.c.i
 
 CMakeFiles/lab2.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lab2.dir/src/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/main.c -o CMakeFiles/lab2.dir/src/main.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/main.c -o CMakeFiles/lab2.dir/src/main.c.s
 
 CMakeFiles/lab2.dir/src/matrix.c.o: CMakeFiles/lab2.dir/flags.make
 CMakeFiles/lab2.dir/src/matrix.c.o: ../src/matrix.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/lab2.dir/src/matrix.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/matrix.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/matrix.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/lab2.dir/src/matrix.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/matrix.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/matrix.c
 
 CMakeFiles/lab2.dir/src/matrix.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/lab2.dir/src/matrix.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/matrix.c > CMakeFiles/lab2.dir/src/matrix.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/matrix.c > CMakeFiles/lab2.dir/src/matrix.c.i
 
 CMakeFiles/lab2.dir/src/matrix.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lab2.dir/src/matrix.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/matrix.c -o CMakeFiles/lab2.dir/src/matrix.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/matrix.c -o CMakeFiles/lab2.dir/src/matrix.c.s
 
 CMakeFiles/lab2.dir/src/matrixmath.c.o: CMakeFiles/lab2.dir/flags.make
 CMakeFiles/lab2.dir/src/matrixmath.c.o: ../src/matrixmath.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/lab2.dir/src/matrixmath.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/matrixmath.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/matrixmath.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/lab2.dir/src/matrixmath.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/matrixmath.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/matrixmath.c
 
 CMakeFiles/lab2.dir/src/matrixmath.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/lab2.dir/src/matrixmath.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/matrixmath.c > CMakeFiles/lab2.dir/src/matrixmath.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/matrixmath.c > CMakeFiles/lab2.dir/src/matrixmath.c.i
 
 CMakeFiles/lab2.dir/src/matrixmath.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lab2.dir/src/matrixmath.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/matrixmath.c -o CMakeFiles/lab2.dir/src/matrixmath.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/matrixmath.c -o CMakeFiles/lab2.dir/src/matrixmath.c.s
 
 CMakeFiles/lab2.dir/src/ppm.c.o: CMakeFiles/lab2.dir/flags.make
 CMakeFiles/lab2.dir/src/ppm.c.o: ../src/ppm.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/lab2.dir/src/ppm.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/ppm.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/ppm.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/lab2.dir/src/ppm.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/ppm.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/ppm.c
 
 CMakeFiles/lab2.dir/src/ppm.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/lab2.dir/src/ppm.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/ppm.c > CMakeFiles/lab2.dir/src/ppm.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/ppm.c > CMakeFiles/lab2.dir/src/ppm.c.i
 
 CMakeFiles/lab2.dir/src/ppm.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lab2.dir/src/ppm.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/ppm.c -o CMakeFiles/lab2.dir/src/ppm.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/ppm.c -o CMakeFiles/lab2.dir/src/ppm.c.s
 
 CMakeFiles/lab2.dir/src/transform.c.o: CMakeFiles/lab2.dir/flags.make
 CMakeFiles/lab2.dir/src/transform.c.o: ../src/transform.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/lab2.dir/src/transform.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/transform.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/transform.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/lab2.dir/src/transform.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lab2.dir/src/transform.c.o   -c /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/transform.c
 
 CMakeFiles/lab2.dir/src/transform.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/lab2.dir/src/transform.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/transform.c > CMakeFiles/lab2.dir/src/transform.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/transform.c > CMakeFiles/lab2.dir/src/transform.c.i
 
 CMakeFiles/lab2.dir/src/transform.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lab2.dir/src/transform.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/transform.c -o CMakeFiles/lab2.dir/src/transform.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/transform.c -o CMakeFiles/lab2.dir/src/transform.c.s
 
 # Object files for target lab2
 lab2_OBJECTS = \
@@ -160,7 +160,7 @@ lab2: CMakeFiles/lab2.dir/src/ppm.c.o
 lab2: CMakeFiles/lab2.dir/src/transform.c.o
 lab2: CMakeFiles/lab2.dir/build.make
 lab2: CMakeFiles/lab2.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable lab2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable lab2"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/lab2.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -173,6 +173,6 @@ CMakeFiles/lab2.dir/clean:
 .PHONY : CMakeFiles/lab2.dir/clean
 
 CMakeFiles/lab2.dir/depend:
-	cd /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/subhash011/Desktop/IIT-Palakkad/OS/lab2 /home/subhash011/Desktop/IIT-Palakkad/OS/lab2 /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug /home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles/lab2.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2 /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2 /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles/lab2.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/lab2.dir/depend
 

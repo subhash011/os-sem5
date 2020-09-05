@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/main.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/main.c.o"
-  "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/matrix.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/matrix.c.o"
-  "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/matrixmath.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/matrixmath.c.o"
-  "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/ppm.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/ppm.c.o"
-  "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/src/transform.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/transform.c.o"
+  "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/main.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/main.c.o"
+  "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/matrix.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/matrix.c.o"
+  "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/matrixmath.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/matrixmath.c.o"
+  "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/ppm.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/ppm.c.o"
+  "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/src/transform.c" "/home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/cmake-build-debug/CMakeFiles/lab2.dir/src/transform.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
