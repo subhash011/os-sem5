@@ -25,6 +25,8 @@ stdio.h
 -
 stdlib.h
 -
+string.h
+-
 ../include/matrixmath.h
 /home/subhash011/Desktop/IIT-Palakkad/OS/git/lab2/include/matrixmath.h
 ../include/transform.h

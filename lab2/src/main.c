@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../include/matrixmath.h"
 #include "../include/transform.h"
 #include "../include/ppm.h"
@@ -19,11 +20,23 @@ int main(int argc, char **argv)
     FILE *f, *in;
     const char *input_file = "input.txt";
     char *inFile = argv[1], *outFile = argv[2];
+
+    /*
+     * if a file named input.txt exists then read the image from that
+     * */
     in = fopen(input_file, "r");
     if(in) {
-        size_t line_buf_size = 0;
-        fscanf(in, "%s\n", inFile);
-        fscanf(in, "%s", outFile);
+        size_t len = 0;
+        ssize_t read;
+        char * line = NULL;
+        int i = 0;
+        getline(&inFile, &len, in);
+        char *temp;
+        temp = strchr(inFile, '\n');
+        *temp ='\0';
+        getline(&outFile, &len, in);
+        temp = strchr(outFile, '\n');
+        *temp ='\0';
         remove(input_file);
     }
     /*
