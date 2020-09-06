@@ -14,6 +14,7 @@ LIBLINKS := $(addprefix -l, matrix ppm transform matrixmath)
 
 INPUT_DIR := inppm
 OUT_DIR := outppm
+TEST_OUT_DIR := testout
 
 INPUT_FILE := inppm/input.ppm
 OUT_FILE := outppm/output.ppm
@@ -57,9 +58,12 @@ $(LIBDYN)/%.o: src/%.c | $(LIBDYN)
 run: $(EXE) | $(OUT_DIR)
 	./$(EXE) $(INPUT_FILE) $(OUT_FILE)
 
-prepare: $(EXE)
-	@echo "Enter the input file path: "; \
-	read inpath; echo "Enter the output file path: "; read outpath; ./$(EXE) $$inpath $$outpath	
+prepare:
+	@echo "Enter the input file path: ";
+	@read inpath; echo $$inpath > input.txt
+	@echo "Enter the outpath file path: ";
+	@read outpath; echo $$outpath >> input.txt
+	@echo "Input and outpath has been stored, use 'make run' to get the output.";
 
 T1: $(EXE) | $(OUT_DIR)
 	./$(EXE) $(INPUT_FILE) $(OUT_FILE) 1
@@ -67,15 +71,21 @@ T1: $(EXE) | $(OUT_DIR)
 T2: $(EXE) | $(OUT_DIR)
 	./$(EXE) $(INPUT_FILE) $(OUT_FILE) 2
 
-tests: $(EXE) | $(OUT_DIR)
+tests: $(EXE) permissions | $(TEST_OUT_DIR)
 	./testscript.sh
 
 .PHONY: test
-test: $(EXE) | $(OUT_DIR)
+test: $(EXE) permissions | $(TEST_OUT_DIR)
 	./testscript.sh
 
-test%: $(EXE) | $(OUT_DIR)
+test%: $(EXE) permissions | $(TEST_OUT_DIR)
 	./testscript.sh $@
+
+permissions:
+	chmod +x testscript.sh
+
+$(TEST_OUT_DIR):
+	mkdir -p $@
 
 $(OUT_DIR):
 	mkdir -p $@
@@ -93,5 +103,5 @@ $(LIBDYN):
 	mkdir -p $(LIBDYN)
 
 clean:
-	rm -rf $(EXEDIR) $(LIBDIR) $(OBJDIR) $(LIBDYN) $(OUT_DIR)
+	rm -rf $(EXEDIR) $(LIBDIR) $(OBJDIR) $(LIBDYN) $(OUT_DIR) $(TEST_OUT_DIR)
 	rm -f *.ppm

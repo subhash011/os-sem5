@@ -13,12 +13,19 @@ void assign_array_to_matrix(matrix* mat, uint8 (*array)[3]) {
     }
 }
 
+
 int main(int argc, char **argv)
 {
-    FILE *f;
-
+    FILE *f, *in;
+    const char *input_file = "input.txt";
     char *inFile = argv[1], *outFile = argv[2];
-
+    in = fopen(input_file, "r");
+    if(in) {
+        size_t line_buf_size = 0;
+        fscanf(in, "%s\n", inFile);
+        fscanf(in, "%s", outFile);
+        remove(input_file);
+    }
     /*
      * This tells what transformations to perform
      * 1 -> RGB to grayscale
@@ -41,10 +48,12 @@ int main(int argc, char **argv)
     fclose(f);
 
     /*define our kernels for edge detection*/
-    uint8 kernels[2][3][3] =
+    uint8 kernels[3][3][3] =
             {
                     { {0, 0, 0}, {0, 1, 0}, {0, 0, 0} }, // identity operation
-                    { {0, -1, 0}, {-1, 2, -1}, {0, -1, -1} }, //edge detector
+                    { {0, -1, 0}, {-1, 4, -1}, {0, -1, 0} }, //edge detector
+                    { {-1, -1, -1}, {0, 0, 0}, {1, 1, 1} },// horizontal edge detector
+
             };
 
     /*store incoming image in this matrix*/
