@@ -56,7 +56,13 @@ $(LIBDYN)/%.o: src/%.c | $(LIBDYN)
 	gcc -fPIC -c -I include $< -o $@
 
 run: $(EXE) | $(OUT_DIR)
-	./$(EXE) $(INPUT_FILE) $(OUT_FILE)
+	@if [ -e input.txt ] ; \
+    then \
+    	./$(EXE) `cat input.txt`; \
+    	rm input.txt; \
+    else \
+    	./$(EXE) $(INPUT_FILE) $(OUT_FILE); \
+    fi;
 
 prepare:
 	@echo "Enter the input file path: ";

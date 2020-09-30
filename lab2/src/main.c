@@ -17,28 +17,9 @@ void assign_array_to_matrix(matrix* mat, uint8 (*array)[3]) {
 
 int main(int argc, char **argv)
 {
-    FILE *f, *in;
-    const char *input_file = "input.txt";
+    FILE *f;
     char *inFile = argv[1], *outFile = argv[2];
 
-    /*
-     * if a file named input.txt exists then read the image from that
-     * */
-    in = fopen(input_file, "r");
-    if(in) {
-        size_t len = 0;
-        ssize_t read;
-        char * line = NULL;
-        int i = 0;
-        getline(&inFile, &len, in);
-        char *temp;
-        temp = strchr(inFile, '\n');
-        *temp ='\0';
-        getline(&outFile, &len, in);
-        temp = strchr(outFile, '\n');
-        *temp ='\0';
-        remove(input_file);
-    }
     /*
      * This tells what transformations to perform
      * 1 -> RGB to grayscale
