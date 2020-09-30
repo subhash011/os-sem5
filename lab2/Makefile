@@ -31,10 +31,10 @@ build: $(EXE) | $(EXEDIR)
 	@echo "Use './bin/imageprocess' to run the binary"
 	@echo "The input is the path to input ppm file"
 
-$(EXE): src/main.c liba $(OBJS) | $(EXEDIR)
+$(EXE): src/main.c liba $(OBJS) | $(EXEDIR) $(OUT_DIR)
 	gcc -o $@ -I $(INCDIR) $< -L $(LIBDIR) $(LIBLINKS)
 
-$(EXEDIR)/imageprocess_so: src/main.c libso | $(EXEDIR)
+$(EXEDIR)/imageprocess_so: src/main.c libso | $(EXEDIR) $(OUT_DIR)
 	gcc -o $@ -I $(INCDIR) $< -L $(LIBDYN) $(LIBLINKS)
 
 liba: $(LIBS) | $(LIBDIR)

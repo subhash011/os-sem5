@@ -21,6 +21,14 @@ int main(int argc, char **argv)
     char *inFile = argv[1], *outFile = argv[2];
 
     /*
+     * if user does not specify input output directories, then assume
+     * default path.
+     * */
+    if (!inFile) {
+        inFile = "inppm/input.ppm";
+        outFile = "outppm/output.ppm";
+    }
+    /*
      * This tells what transformations to perform
      * 1 -> RGB to grayscale
      * 2 -> edge detection
