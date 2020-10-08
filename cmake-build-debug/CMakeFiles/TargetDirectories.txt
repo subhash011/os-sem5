@@ -1,4 +1,0 @@
-/home/subhash011/Desktop/IIT-Palakkad/OS/git/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/subhash011/Desktop/IIT-Palakkad/OS/git/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/subhash011/Desktop/IIT-Palakkad/OS/git/cmake-build-debug/CMakeFiles/lab2.dir
-/home/subhash011/Desktop/IIT-Palakkad/OS/git/cmake-build-debug/CMakeFiles/lab1.dir
