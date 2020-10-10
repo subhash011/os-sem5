@@ -90,6 +90,8 @@ sys_uptime(void)
   return xticks;
 }
 
+// return how many times a syscall was called by
+// a process.
 int
 sys_getcount(void)
 {
