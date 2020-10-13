@@ -1,3 +1,12 @@
+## Lab-1
+#### Aim - Write shell script to get student mark for all the courses
+
+## Lab-2
+#### Aim - Write a basic image processing library to perform two operations on an image
+
+## Lab-3
+#### Aim - Understand the binary and crack the three passwords stored in the binary file. 
+
 ## Lab-4
 #### Aim - add a system call getcount which gives the number of times a system call was called by the calling process.
 #### Files changed
