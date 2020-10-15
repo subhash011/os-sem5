@@ -100,3 +100,12 @@ sys_getcount(void)
         return -1;
     return myproc() -> syscallcount [syscall - 1];
 }
+
+int
+sys_v2paddr(void)
+{
+    int syscall;
+    if (argint(0, &syscall) < 0)
+        return -1;
+    return myproc() -> syscallcount [syscall - 1];
+}
