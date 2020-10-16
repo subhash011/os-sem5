@@ -104,8 +104,20 @@ sys_getcount(void)
 int
 sys_v2paddr(void)
 {
-    int syscall;
-    if (argint(0, &syscall) < 0)
+    int vaddr;
+    int paddr;
+    if (argint(0, &vaddr) < 0)
         return -1;
-    return myproc() -> syscallcount [syscall - 1];
+    struct proc* me = (struct proc *) myproc();
+    pde_t *pgdir = me -> pgdir;
+    pde_t *pde;
+    pte_t *pgtab;
+    pde = &pgdir[PDX(vaddr)];
+    if(*pde & PTE_P) {
+        pgtab = &pde[PTX(vaddr)];
+        paddr = PTE_ADDR(pgtab) + PTE_FLAGS(vaddr);
+        return paddr;
+    } else {
+        return -1;
+    }
 }
