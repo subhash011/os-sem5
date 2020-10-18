@@ -182,7 +182,7 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_getcount\
-	_v2paddr\
+	_test_v2paddr\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
