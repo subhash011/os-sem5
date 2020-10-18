@@ -22,19 +22,20 @@ main(int argc, char *argv[])
     int v2p_globalnum = v2paddr((int) &globalnum);
     int invalid = 0x0;
     int v2p_invalid = v2paddr(invalid);
-    int a[] = {1, 2, 3, 4, 5, 6, 7};
+    int a[] = {1, 2, 3, 4};
     int kernaddr = KERNBASE + 0x1;
     int v2p_kernaddr = v2paddr(kernaddr);
     int devmem = DEVSPACE + 0x1;
     int v2p_devmem = v2paddr(devmem);
     printmsg(v2p_num, (int) &num);
     printmsg(v2p_globalnum, (int) &globalnum);
+    printmsg(v2p_invalid, invalid);
+    printmsg(v2p_kernaddr, kernaddr);
+    printmsg(v2p_devmem, devmem);
+    printf(1, "===== Array elements start =====\n");
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
         int v2p_temp = v2paddr((int) &a[i]);
         printmsg(v2p_temp, (int) &a[i]);
     }
-    printmsg(v2p_invalid, invalid);
-    printmsg(v2p_kernaddr, kernaddr);
-    printmsg(v2p_devmem, devmem);
     exit();
 }
