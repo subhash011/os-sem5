@@ -10,5 +10,5 @@
          1. -2 if the required page directory is absent.
          2. -1 if the page table entry is absent.
          3. 0 if the address does not lie in the user space.
-         4. If all the above cases fail, it returns the physical address of the give virtual address.  
+         4. If all the above cases fail, it returns the physical address of the given virtual address.  
     6. test_v2paddr.c - test file for testing the system call.
