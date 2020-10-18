@@ -103,11 +103,9 @@ sys_getcount(void)
 
 /*
  * return the physical address give a virtual address
- * returns -2 if the page directory is absent
- * returns -1 if the page table entry is absent
- * returns 0 if the page can be accessed only from the
- * kernel space. If the page is present and can be accessed
- * in the user mode then return the corresponding
+ * returns -1 if the page is absent or in kernel space
+ * If the page is present and can be accessed
+ * in the user mode then it returns the corresponding
  * physical address.
  * */
 int
@@ -116,14 +114,14 @@ sys_v2paddr(void)
     // input virtual address
     int vaddr;
     if (argint(0, &vaddr) < 0)
-        return -1;
+        return -2;
     pde_t *pde; // page directory.
     pte_t *pgtab; // page table by indexing the directory.
     pte_t *pte; // page table entry by indexing page table.
     pde_t *pgdir = myproc() -> pgdir;
     pde = &pgdir[PDX(vaddr)];
     if(!(*pde & PTE_P)) {
-        return -2; // page dir is absent.
+        return -1; // page dir is absent.
     }
     pgtab = (pte_t*)P2V(PTE_ADDR(*pde));
     pte = &pgtab[PTX(vaddr)];
@@ -131,7 +129,7 @@ sys_v2paddr(void)
         return -1; // page table entry is absent.
     }
     if(!(*pte & PTE_U)) {
-        return 0; // this address cannot be accessed in user mode.
+        return -1; // this address cannot be accessed in user mode.
     }
     // final step i.e concatenate last 12 bits of vaddr
     // to the first 20 bits of pte

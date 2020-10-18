@@ -7,8 +7,6 @@
     4. user.S - bind the system call to the SYSCALL
     5. sysproc.c - add the new method sys_v2paddr which converts va to pa.
        Return values:
-         1. -2 if the required page directory is absent.
-         2. -1 if the page table entry is absent.
-         3. 0 if the address does not lie in the user space.
-         4. If all the above cases fail, it returns the physical address of the given virtual address.  
+         1. -1 if the required page entry not found or the address is does not lie in the user space.
+         4. If the above case fails, it returns the physical address of the given virtual address.  
     6. test_v2paddr.c - test file for testing the system call.

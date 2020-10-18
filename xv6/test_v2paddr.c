@@ -4,14 +4,8 @@
 
 void printmsg(int v2p, int vaddr) {
     switch (v2p) {
-        case -2:
-            printf(1, "The page directory is absent\n");
-            break;
         case -1:
-            printf(1, "The page table in the directory is absent\n");
-            break;
-        case 0:
-            printf(1, "The virtual address 0x%x cannot be accessed in the user mode.\n", vaddr);
+            printf(1, "Page not found or address 0x%x not accessible from user space.\n", vaddr);
             break;
         default:
             printf(1, "Virtual address: 0x%x -> Physical address: 0x%x\n", vaddr, v2p);
