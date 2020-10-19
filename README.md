@@ -14,8 +14,8 @@
     8. test_v2paddr.c - test file for testing the system call.
 #### The system call v2paddr
     1. Input arguments:
-       uint* pa - this is where the physical address is stored.
-       void* va - the virtual address
+       addr_t pa - this is where the physical address is stored.
+       addr_t* va - the virtual address
        Example:
        code:
            addr_t pa;
