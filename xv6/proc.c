@@ -539,11 +539,14 @@ procdump(void)
  * If the page is present and can be accessed
  * in the user mode then it returns the corresponding
  * physical address.
+ * The check to see if an address is present in the process
+ * address space is already done by the argptr in the
+ * sys_v2paddr so we don't have to check it here.
  * */
-int v2paddr(int vaddr) {
-  pde_t *pde; // page directory.
-  pte_t *pgtab; // page table by indexing the directory.
-  pte_t *pte; // page table entry by indexing page table.
+int v2paddr(void** paddr, void* vaddr) {
+  pde_t *pde;
+  pte_t *pgtab;
+  pte_t *pte;
   pde_t *pgdir = myproc() -> pgdir;
   pde = &pgdir[PDX(vaddr)];
   if(!(*pde & PTE_P)) {
@@ -559,5 +562,6 @@ int v2paddr(int vaddr) {
   }
   // final step i.e concatenate last 12 bits of vaddr
   // to the first 20 bits of pte
-  return PTE_ADDR(*pte) | PTE_FLAGS(vaddr);
+  *paddr = (void *) (PTE_ADDR(*pte) | PTE_FLAGS(vaddr));
+  return 0;
 }

@@ -2,8 +2,8 @@
 #include "user.h"
 #include "memlayout.h"
 
-void printmsg(int v2p, int vaddr) {
-    switch (v2p) {
+void printmsg(int status, void* v2p, void* vaddr) {
+    switch (status) {
         case -1:
             printf(1, "Page not found or address 0x%x not accessible from user space.\n", vaddr);
             break;
@@ -18,24 +18,25 @@ int
 main(int argc, char *argv[])
 {
     int num = 0;
-    int v2p_num = v2paddr((int) &num);
-    int v2p_globalnum = v2paddr((int) &globalnum);
-    int invalid = 0x0;
-    int v2p_invalid = v2paddr(invalid);
+    void *v2p_num, *v2p_globalnum, *v2p_invalid, *v2p_kernaddr, *v2p_devmem, *v2p_temp;
+    int s_num = v2paddr(&v2p_num, &num);
+    int s_globalnum = v2paddr(&v2p_globalnum, &globalnum);
+    void* invalid = 0x0;
+    int s_invalid = v2paddr(&v2p_invalid, invalid);
     int a[] = {1, 2, 3, 4};
-    int kernaddr = KERNBASE + 0x1;
-    int v2p_kernaddr = v2paddr(kernaddr);
-    int devmem = DEVSPACE + 0x1;
-    int v2p_devmem = v2paddr(devmem);
-    printmsg(v2p_num, (int) &num);
-    printmsg(v2p_globalnum, (int) &globalnum);
-    printmsg(v2p_invalid, invalid);
-    printmsg(v2p_kernaddr, kernaddr);
-    printmsg(v2p_devmem, devmem);
+    void* kernaddr = (void *) (KERNBASE + 0x1);
+    int s_kernaddr = v2paddr(&v2p_kernaddr, kernaddr);
+    void* devmem = (void *) (DEVSPACE + 0x1);
+    int s_devmem = v2paddr(&v2p_devmem, devmem);
+    printmsg(s_num, v2p_num, &num);
+    printmsg(s_globalnum, v2p_globalnum, &globalnum);
+    printmsg(s_invalid, v2p_invalid, invalid);
+    printmsg(s_kernaddr, v2p_kernaddr, kernaddr);
+    printmsg(s_devmem, v2p_devmem, devmem);
     printf(1, "===== Array elements start =====\n");
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
-        int v2p_temp = v2paddr((int) &a[i]);
-        printmsg(v2p_temp, (int) &a[i]);
+        int s_temp = v2paddr(&v2p_temp, &a[i]);
+        printmsg(s_temp, v2p_temp, &a[i]);
     }
     exit();
 }
