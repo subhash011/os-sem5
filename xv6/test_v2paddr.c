@@ -2,7 +2,7 @@
 #include "user.h"
 #include "memlayout.h"
 
-void printmsg(int status, void* v2p, void* vaddr) {
+void printmsg(int status, uint v2p, void* vaddr) {
     switch (status) {
         case -1:
             printf(1, "Page not found or address 0x%x not accessible from user space.\n", vaddr);
@@ -18,7 +18,12 @@ int
 main(int argc, char *argv[])
 {
     int num = 0;
-    void *v2p_num, *v2p_globalnum, *v2p_invalid, *v2p_kernaddr, *v2p_devmem, *v2p_temp;
+    uint v2p_num;
+    uint v2p_globalnum;
+    uint v2p_invalid;
+    uint v2p_kernaddr;
+    uint v2p_devmem;
+    uint v2p_temp;
     int s_num = v2paddr(&v2p_num, &num);
     int s_globalnum = v2paddr(&v2p_globalnum, &globalnum);
     void* invalid = 0x0;

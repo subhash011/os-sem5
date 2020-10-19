@@ -24,7 +24,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int getcount(int);
-int v2paddr(void**, void*);
+int v2paddr(uint*, void*);
 
 // ulib.c
 int stat(const char*, struct stat*);

@@ -106,7 +106,7 @@ sys_v2paddr(void)
 {
     // input virtual address
     char *vaddr;
-    void *paddr;
+    uint *paddr;
     if (argptr(0, (char **) &paddr, 4) < 0)
         return -1;
     if (argptr(1, &vaddr, 4) < 0)
