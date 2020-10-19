@@ -2,7 +2,7 @@
 #include "user.h"
 #include "memlayout.h"
 
-void printmsg(int status, uint v2p, void* vaddr) {
+void printmsg(int status, addr_t v2p, addr_t* vaddr) {
     switch (status) {
         case -1:
             printf(1, "Page not found or not enough permissions to access address 0x%x.\n", vaddr);
@@ -19,24 +19,24 @@ main(int argc, char *argv[])
 {
     int num = 0;
     // virtual addresses
-    void *random, *kernaddr, *devmem;
+    addr_t *random, *kernaddr, *devmem;
     // physical addresses
-    uint v2p_num, v2p_globalnum, v2p_random,
+    addr_t v2p_num, v2p_globalnum, v2p_random,
          v2p_kernaddr, v2p_devmem, v2p_temp;
     // status codes
     int s_num, s_globalnum, s_random, s_kernaddr,
         s_devmem, s_temp;
-    random  = (void *) 0x345;
+    random  = (void *) 0x2999;
     kernaddr = (void *) (KERNBASE + 0x1);
     devmem = (void *) (DEVSPACE + 0x1);
 
     // local variable va to pa.
-    s_num = v2paddr(&v2p_num, &num);
-    printmsg(s_num, v2p_num, &num);
+    s_num = v2paddr(&v2p_num, (addr_t*)&num);
+    printmsg(s_num, v2p_num, (addr_t *)&num);
 
     // global variable va to pa.
-    s_globalnum = v2paddr(&v2p_globalnum, &globalnum);
-    printmsg(s_globalnum, v2p_globalnum, &globalnum);
+    s_globalnum = v2paddr(&v2p_globalnum, (addr_t*)&globalnum);
+    printmsg(s_globalnum, v2p_globalnum, (addr_t *)&globalnum);
 
     // just a random integer va to pa.
     s_random = v2paddr(&v2p_random, random);
@@ -54,8 +54,8 @@ main(int argc, char *argv[])
     printf(1, "===== Array elements start =====\n");
     int a[] = {1, 2, 3, 4};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
-        s_temp = v2paddr(&v2p_temp, &a[i]);
-        printmsg(s_temp, v2p_temp, &a[i]);
+        s_temp = v2paddr(&v2p_temp, (addr_t*)&a[i]);
+        printmsg(s_temp, v2p_temp, (addr_t *)&a[i]);
     }
     exit();
 }

@@ -543,7 +543,7 @@ procdump(void)
  * address space is already done by the argptr in the
  * sys_v2paddr so we don't have to check it here.
  * */
-int v2paddr(uint* paddr, void* vaddr) {
+int v2paddr(addr_t* paddr, addr_t* vaddr) {
   pde_t *pde;
   pte_t *pgtab;
   pte_t *pte;
