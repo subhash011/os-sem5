@@ -181,7 +181,7 @@ UPROGS=\
 	_usertests\
 	_wc\
 	_zombie\
-	_getcount\
+	_get_syscall_counts\
 	_test_v2paddr\
 
 fs.img: mkfs README $(UPROGS)

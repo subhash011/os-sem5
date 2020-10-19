@@ -532,3 +532,36 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+/* virtual address to physical address map.
+ * returns -1 if input is not given or the page is
+ * absent or in kernel space.
+ * If the page is present and can be accessed
+ * in the user mode then it returns the corresponding
+ * physical address.
+ * The check to see if an address is present in the process
+ * address space is already done by the argptr in the
+ * sys_v2paddr so we don't have to check it here.
+ * */
+int v2paddr(addr_t* paddr, addr_t* vaddr) {
+  pde_t *pde;
+  pte_t *pgtab;
+  pte_t *pte;
+  pde_t *pgdir = myproc() -> pgdir;
+  pde = &pgdir[PDX(vaddr)];
+  if(!(*pde & PTE_P)) {
+    return -1; // page dir is absent.
+  }
+  pgtab = (pte_t*)P2V(PTE_ADDR(*pde));
+  pte = &pgtab[PTX(vaddr)];
+  if(!(*pte & PTE_P)) {
+    return -1; // page table entry is absent.
+  }
+  if(!(*pte & PTE_U)) {
+    return -1; // this address cannot be accessed in user mode.
+  }
+  // final step i.e concatenate last 12 bits of vaddr
+  // to the first 20 bits of pte
+  *paddr = (PTE_ADDR(*pte) | PTE_FLAGS(vaddr));
+  return 0;
+}
