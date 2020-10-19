@@ -19,24 +19,28 @@ main(int argc, char *argv[])
 {
     int num = 0;
     // virtual addresses
-    addr_t *random, *kernaddr, *devmem;
+    addr_t *numaddr, *globaladdr, *random,
+           *kernaddr, *devmem, *tempaddr;
     // physical addresses
     addr_t v2p_num, v2p_globalnum, v2p_random,
          v2p_kernaddr, v2p_devmem, v2p_temp;
     // status codes
     int s_num, s_globalnum, s_random, s_kernaddr,
         s_devmem, s_temp;
+
+    numaddr  = (addr_t *)&num;
+    globaladdr = (addr_t *)&globalnum;
     random  = (void *) 0x2999;
     kernaddr = (void *) (KERNBASE + 0x1);
     devmem = (void *) (DEVSPACE + 0x1);
 
     // local variable va to pa.
-    s_num = v2paddr(&v2p_num, (addr_t*)&num);
-    printmsg(s_num, v2p_num, (addr_t *)&num);
+    s_num = v2paddr(&v2p_num, numaddr);
+    printmsg(s_num, v2p_num, numaddr);
 
     // global variable va to pa.
-    s_globalnum = v2paddr(&v2p_globalnum, (addr_t*)&globalnum);
-    printmsg(s_globalnum, v2p_globalnum, (addr_t *)&globalnum);
+    s_globalnum = v2paddr(&v2p_globalnum, globaladdr);
+    printmsg(s_globalnum, v2p_globalnum, globaladdr);
 
     // just a random integer va to pa.
     s_random = v2paddr(&v2p_random, random);
@@ -54,8 +58,9 @@ main(int argc, char *argv[])
     printf(1, "===== Array elements start =====\n");
     int a[] = {1, 2, 3, 4};
     for (int i = 0; i < sizeof(a)/sizeof(a[0]); i++) {
-        s_temp = v2paddr(&v2p_temp, (addr_t*)&a[i]);
-        printmsg(s_temp, v2p_temp, (addr_t *)&a[i]);
+        tempaddr = (addr_t *)&a[i];
+        s_temp = v2paddr(&v2p_temp, tempaddr);
+        printmsg(s_temp, v2p_temp, tempaddr);
     }
     exit();
 }
