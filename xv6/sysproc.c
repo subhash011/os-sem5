@@ -107,9 +107,9 @@ sys_v2paddr(void)
     // input virtual address
     addr_t *vaddr;
     addr_t *paddr;
-    if (argptr(0, (char **) &paddr, 4) < 0)
+    if (argptr(0, (void *) &paddr, sizeof(*paddr)) < 0)
         return -1;
-    if (argptr(1, (char **) &vaddr, 4) < 0)
+    if (argptr(1, (void *) &vaddr, sizeof(*vaddr)) < 0)
         return -1;
     int a = v2paddr(paddr, vaddr);
     return a;
