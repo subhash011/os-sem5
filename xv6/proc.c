@@ -32,16 +32,45 @@ cpuid() {
   return mycpu()-cpus;
 }
 
+const char*
+getprocstate(int pid) {
+  switch (pid)
+  {
+    case 0:
+      return "UNUSED";
+    case 1:
+      return "EMBRYO";
+    case 2:
+      return "SLEEPING";
+    case 3:
+      return "RUNNABLE";
+    case 4:
+      return "RUNNING";
+    case 5:
+      return "ZOMBIE";
+    default:
+      return "UNKNOWN";
+  }
+}
+
+void printbefore(struct proc* p) {
+  cprintf("xv6: pid: %d - %s -> ", p -> pid, getprocstate(p -> state));
+}
+
+void printafter(struct proc* p, char* msg) {
+  cprintf("%s %s\n", getprocstate(p -> state), msg);
+}
+
 // Must be called with interrupts disabled to avoid the caller being
 // rescheduled between reading lapicid and running through the loop.
 struct cpu*
 mycpu(void)
 {
   int apicid, i;
-  
+
   if(readeflags()&FL_IF)
     panic("mycpu called with interrupts enabled\n");
-  
+
   apicid = lapicid();
   // APIC IDs are not guaranteed to be contiguous. Maybe we should have
   // a reverse map, or reserve a register to store &cpus[i].
@@ -124,7 +153,7 @@ userinit(void)
   extern char _binary_initcode_start[], _binary_initcode_size[];
 
   p = allocproc();
-  
+
   initproc = p;
   if((p->pgdir = setupkvm()) == 0)
     panic("userinit: out of memory?");
@@ -193,7 +222,9 @@ fork(void)
   if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz)) == 0){
     kfree(np->kstack);
     np->kstack = 0;
+    printbefore(np);
     np->state = UNUSED;
+    printafter(np, "(forking process failed)");
     return -1;
   }
   np->sz = curproc->sz;
@@ -214,7 +245,9 @@ fork(void)
 
   acquire(&ptable.lock);
 
+  printbefore(np);
   np->state = RUNNABLE;
+  printafter(np, "(this has been forked now)");
 
   release(&ptable.lock);
 
@@ -262,7 +295,9 @@ exit(void)
   }
 
   // Jump into the scheduler, never to return.
+  printbefore(curproc);
   curproc->state = ZOMBIE;
+  printafter(curproc, "(exiting)");
   sched();
   panic("zombie exit");
 }
@@ -273,9 +308,9 @@ int
 wait(void)
 {
   struct proc *p;
-  int havekids, pid;
+  int havekids, pid, parent;
   struct proc *curproc = myproc();
-  
+
   acquire(&ptable.lock);
   for(;;){
     // Scan through table looking for exited children.
@@ -287,6 +322,7 @@ wait(void)
       if(p->state == ZOMBIE){
         // Found one.
         pid = p->pid;
+        parent = p->parent->pid;
         kfree(p->kstack);
         p->kstack = 0;
         freevm(p->pgdir);
@@ -294,7 +330,9 @@ wait(void)
         p->parent = 0;
         p->name[0] = 0;
         p->killed = 0;
+        cprintf("xv6: pid: %d - %s -> ", pid, getprocstate(p -> state));
         p->state = UNUSED;
+        cprintf("%s (zombie process, parent pid: %d, cleaning up data structures)\n", getprocstate(p -> state), parent);
         release(&ptable.lock);
         return pid;
       }
@@ -325,7 +363,7 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
-  
+
   for(;;){
     // Enable interrupts on this processor.
     sti();
@@ -418,7 +456,7 @@ void
 sleep(void *chan, struct spinlock *lk)
 {
   struct proc *p = myproc();
-  
+
   if(p == 0)
     panic("sleep");
 
@@ -437,8 +475,9 @@ sleep(void *chan, struct spinlock *lk)
   }
   // Go to sleep.
   p->chan = chan;
+  printbefore(p);
   p->state = SLEEPING;
-
+  printafter(p, "");
   sched();
 
   // Tidy up.
@@ -460,8 +499,11 @@ wakeup1(void *chan)
   struct proc *p;
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-    if(p->state == SLEEPING && p->chan == chan)
+    if(p->state == SLEEPING && p->chan == chan) {
+//      printbefore(p);
       p->state = RUNNABLE;
+//      printafter(p, "");
+    }
 }
 
 // Wake up all processes sleeping on chan.
@@ -486,8 +528,11 @@ kill(int pid)
     if(p->pid == pid){
       p->killed = 1;
       // Wake process from sleep if necessary.
-      if(p->state == SLEEPING)
+      if(p->state == SLEEPING) {
+        printbefore(p);
         p->state = RUNNABLE;
+        printafter(p, "(wake up process after kill)");
+      }
       release(&ptable.lock);
       return 0;
     }

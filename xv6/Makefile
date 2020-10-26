@@ -183,6 +183,8 @@ UPROGS=\
 	_zombie\
 	_get_syscall_counts\
 	_test_v2paddr\
+	_arith\
+	_pipe_test\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
