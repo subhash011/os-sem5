@@ -20,7 +20,7 @@ int main(int	argc, char	*argv[])
   iter = 0;
 
   /* this loop will run for fixed number of iterations */
-  while (iter <= 100000000l)
+  while (iter <= 10)
   {
     /* in switching to time-based (instead of iteration-based),
        the following statement was added. It should not skew
