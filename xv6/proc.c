@@ -19,17 +19,6 @@ extern void forkret(void);
 extern void trapret(void);
 
 static void wakeup1(void *chan);
-static void printwakeup1(void *chan, char *reason);
-
-static void
-printwakeup1(void *chan, char *reason) {
-  struct proc *p;
-  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
-    if(p->state == SLEEPING && p->chan == chan) {
-      cprintf("xv6: (wakeup) pid: %d - SLEEPING -> RUNNABLE %s\n", p -> pid, reason);
-    }
-  }
-}
 
 void
 pinit(void)
@@ -291,7 +280,6 @@ exit(void)
   acquire(&ptable.lock);
 
   // Parent might be sleeping in wait().
-  printwakeup1(curproc->parent, "(wake up parent for exiting)");
   wakeup1(curproc->parent);
 
   // Pass abandoned children to init.
@@ -299,7 +287,6 @@ exit(void)
     if(p->parent == curproc){
       p->parent = initproc;
       if(p->state == ZOMBIE) {
-        printwakeup1(curproc->parent, "(wake up init)");
         wakeup1(initproc);
       }
     }
@@ -491,9 +478,14 @@ sleep(void *chan, struct spinlock *lk)
   }
   // Go to sleep.
   p->chan = chan;
+  struct proc *ch = (struct proc*) chan;
   cprintf("xv6: sleep() pid: %d - %s -> ", p -> pid, getprocstate(p -> state));
   p->state = SLEEPING;
-  cprintf("%s\n", getprocstate(p -> state));
+  if(ch -> pid == 0) {
+    cprintf("%s (put to sleep by scheduler)\n", getprocstate(p -> state));
+  } else {
+    cprintf("%s (put to sleep by %d)\n", getprocstate(p -> state), ch -> pid);
+  }
   sched();
 
   // Tidy up.
@@ -517,6 +509,12 @@ wakeup1(void *chan)
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
     if(p->state == SLEEPING && p->chan == chan) {
+      struct proc *ch = (struct proc*) chan;
+      if(ch -> pid == 0) {
+        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up process sleeping on scheduler)\n", p -> pid);
+      } else {
+        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up process sleeping on %d)\n", p -> pid, ch -> pid);
+      }
       p->state = RUNNABLE;
     }
   }
