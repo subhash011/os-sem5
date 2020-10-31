@@ -306,7 +306,7 @@ int
 wait(void)
 {
   struct proc *p;
-  int havekids, pid, parent;
+  int havekids, pid;
   struct proc *curproc = myproc();
 
   acquire(&ptable.lock);
@@ -320,7 +320,6 @@ wait(void)
       if(p->state == ZOMBIE){
         // Found one.
         pid = p->pid;
-        parent = p->parent->pid;
         kfree(p->kstack);
         p->kstack = 0;
         freevm(p->pgdir);
@@ -330,7 +329,7 @@ wait(void)
         p->killed = 0;
         cprintf("xv6: wait() pid: %d - %s -> ", pid, getprocstate(p -> state));
         p->state = UNUSED;
-        cprintf("%s (reaped by pid: %d)\n", getprocstate(p -> state), parent);
+        cprintf("%s (reaped by pid: %d)\n", getprocstate(p -> state), curproc -> pid);
         release(&ptable.lock);
         return pid;
       }
@@ -484,7 +483,7 @@ sleep(void *chan, struct spinlock *lk)
   if(ch -> pid == 0) {
     cprintf("%s (put to sleep by scheduler)\n", getprocstate(p -> state));
   } else {
-    cprintf("%s (put to sleep by %d)\n", getprocstate(p -> state), ch -> pid);
+    cprintf("%s (put to sleep by pid: %d)\n", getprocstate(p -> state), ch -> pid);
   }
   sched();
 
@@ -513,7 +512,7 @@ wakeup1(void *chan)
       if(ch -> pid == 0) {
         cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up process sleeping on scheduler)\n", p -> pid);
       } else {
-        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up process sleeping on %d)\n", p -> pid, ch -> pid);
+        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up process sleeping on pid: %d)\n", p -> pid, ch -> pid);
       }
       p->state = RUNNABLE;
     }
