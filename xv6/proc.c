@@ -378,7 +378,7 @@ scheduler(void)
       switchuvm(p);
       cprintf("xv6: (from scheduler) pid: %d - %s -> ", p -> pid, getprocstate(p -> state));
       p->state = RUNNING;
-      cprintf("%s (scheduled this process to run)\n", getprocstate(p -> state));
+      cprintf("%s\n", getprocstate(p -> state));
 
       swtch(&(c->scheduler), p->context);
       switchkvm();
@@ -426,7 +426,7 @@ yield(void)
   struct proc *curproc = myproc();
   cprintf("xv6: (from yield) pid: %d - %s -> ", curproc -> pid, getprocstate(curproc -> state));
   curproc->state = RUNNABLE;
-  cprintf("%s (give up CPU now)\n", getprocstate(curproc -> state));
+  cprintf("%s (called on clock interrupts)\n", getprocstate(curproc -> state));
   sched();
   release(&ptable.lock);
 }
@@ -477,9 +477,14 @@ sleep(void *chan, struct spinlock *lk)
   }
   // Go to sleep.
   p->chan = chan;
+  struct proc *ch = (struct proc *) chan;
   cprintf("xv6: sleep() pid: %d - %s -> ", p -> pid, getprocstate(p -> state));
   p->state = SLEEPING;
-  cprintf("%s (put to sleep on channel: %x)\n", getprocstate(p -> state), chan);
+  if(ch -> pid > 0) {
+    cprintf("%s (put to sleep on channel: %x by pid: %d)\n", getprocstate(p -> state), chan, ch -> pid);
+  } else {
+    cprintf("%s (put to sleep on channel: %x)\n", getprocstate(p -> state), chan);
+  }
   sched();
 
   // Tidy up.
@@ -503,8 +508,12 @@ wakeup1(void *chan)
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
     if(p->state == SLEEPING && p->chan == chan) {
-//      struct proc *ch = (struct proc*) chan;
-      cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up all processes sleeping on channel: %x)\n", p -> pid, chan);
+      struct proc *ch = (struct proc*) chan;
+      if(ch -> pid > 0) {
+        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up all processes sleeping on channel: %x by pid: %d)\n", p -> pid, chan, ch -> pid);
+      } else {
+        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up all processes sleeping on channel: %x)\n", p -> pid, chan);
+      }
       p->state = RUNNABLE;
     }
   }
