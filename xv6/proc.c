@@ -510,7 +510,7 @@ wakeup1(void *chan)
     if(p->state == SLEEPING && p->chan == chan) {
       struct proc *ch = (struct proc*) chan;
       if(ch -> pid > 0) {
-        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up all processes sleeping on channel: %x by pid: %d)\n", p -> pid, chan, ch -> pid);
+        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up all processes sleeping on channel: %x which is pid: %d)\n", p -> pid, chan, ch -> pid);
       } else {
         cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up all processes sleeping on channel: %x)\n", p -> pid, chan);
       }
