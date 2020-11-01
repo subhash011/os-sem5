@@ -477,14 +477,9 @@ sleep(void *chan, struct spinlock *lk)
   }
   // Go to sleep.
   p->chan = chan;
-  struct proc *ch = (struct proc*) chan;
   cprintf("xv6: sleep() pid: %d - %s -> ", p -> pid, getprocstate(p -> state));
   p->state = SLEEPING;
-  if(ch -> pid == 0) {
-    cprintf("%s (put to sleep by scheduler)\n", getprocstate(p -> state));
-  } else {
-    cprintf("%s (put to sleep by pid: %d)\n", getprocstate(p -> state), ch -> pid);
-  }
+  cprintf("%s (put to sleep on channel: %x)\n", getprocstate(p -> state), chan);
   sched();
 
   // Tidy up.
@@ -508,12 +503,8 @@ wakeup1(void *chan)
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
     if(p->state == SLEEPING && p->chan == chan) {
-      struct proc *ch = (struct proc*) chan;
-      if(ch -> pid == 0) {
-        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up process sleeping on scheduler)\n", p -> pid);
-      } else {
-        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up process sleeping on pid: %d)\n", p -> pid, ch -> pid);
-      }
+//      struct proc *ch = (struct proc*) chan;
+      cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up all processes sleeping on channel: %x)\n", p -> pid, chan);
       p->state = RUNNABLE;
     }
   }
