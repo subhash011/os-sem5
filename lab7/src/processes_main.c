@@ -13,33 +13,6 @@ void turtle();
 void god();
 void reporter();
 
-int kbhit(void)
-{
-	struct termios oldt, newt;
-	int ch;
-	int oldf;
-
-	tcgetattr(STDIN_FILENO, &oldt);
-	newt = oldt;
-	newt.c_lflag &= ~(ICANON | ECHO);
-	tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-	oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-	fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
-
-	ch = getchar();
-
-	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-	fcntl(STDIN_FILENO, F_SETFL, oldf);
-
-	if(ch != EOF)
-	{
-		ungetc(ch, stdin);
-		return 1;
-	}
-
-	return 0;
-}
-
 int main(int argc, char **argv) {
 	int status[4];
 	pipe(a2r);
@@ -121,45 +94,6 @@ void turtle() {
 	close(a2r_write);
 }
 
-void take_input() {
-	char conf , who;
-	int newpos;
-	printf("Do you want to change the race state ? [Y/n] ");
-	conf = getchar();
-	getchar();
-	if(conf == 'Y' || conf == 'y') {
-		while (1) {
-			printf("Whose position do you want to change ? Hare [H] or Turtle [T] or Quit [Q]");
-			who = getchar();
-			if(who == 'H' || who == 'h') {
-				printf("Curent position: %d", race -> hare_pos);
-				printf("\nEnter new position: ");
-				scanf("%d", &newpos);
-				race -> hare_pos = newpos;
-				break;
-			} else if (who == 'T' || who == 't') {
-				printf("Curent position: %d", race -> turt_pos);
-				printf("\nEnter new position: ");
-				scanf("%d", &newpos);
-				race -> turt_pos = newpos;
-				break;
-			} else if (who == 'Q' || who == 'q') {
-				break;
-			} else {
-				printf("Invalid option provided");
-			}
-		}
-	} else {
-		write(a2r_write, race, sizeof(*race));
-		sem_post(sema.g2r);
-		return;
-	}
-	getchar();
-	race -> god_intervenes = true;
-	write(a2r_write, race, sizeof(*race));
-	sem_post(sema.g2r);
-}
-
 void god() {
 	int ch;
 	close(a2g_write);
@@ -174,11 +108,12 @@ void god() {
 			getchar();
 			char conf , who;
 			int newpos;
-			take_input();
+			take_input(&race);
+			race -> god_intervenes = true;
 		} else {
 			race -> god_intervenes = false;
-			write(a2r_write, race, sizeof(*race));
 		}
+		write(a2r_write, race, sizeof(*race));
 	}
 	close(a2g_read);
 	close(a2r_write);
@@ -192,6 +127,7 @@ void reporter() {
 	race -> hare_pos = 0;
 	race -> turt_pos = 0;
 	print_race(race);
+	sleep(race -> print_interval);
 	Race *t = (struct Race*) malloc(sizeof(struct Race));
 	Race *h = (struct Race*) malloc(sizeof(struct Race));
 	Race *g = (struct Race*) malloc(sizeof(struct Race));
@@ -220,6 +156,7 @@ void reporter() {
 		if(race -> god_intervenes) {
 			race -> god_intervenes = false;
 			print_race(race);
+			sleep(race -> print_interval);
 		}
 	}
 	write(a2g_write, race, sizeof(*race));

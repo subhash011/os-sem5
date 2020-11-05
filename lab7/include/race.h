@@ -51,4 +51,8 @@ void init_race(Race**);
 
 void init_mutex(Mutex**);
 
+int kbhit(void);
+
+void take_input(Race **race);
+
 #endif
