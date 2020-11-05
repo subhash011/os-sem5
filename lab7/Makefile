@@ -5,15 +5,13 @@ INCDIR := include
 
 #$(addprefix $(EXEDIR)/, $(basename $(notdir $(wildcard src/*.c))))
 
-EXE := $(filter-out bin/utils, $(addprefix $(EXEDIR)/, $(basename $(notdir $(wildcard src/*.c)))))
+EXE := bin/processes_main bin/threads_main
 FILES := $(basename $(notdir $(wildcard src/*.c)))
 SRCS := $(wildcard src/*.c)
 OBJS := $(addprefix $(OBJDIR)/, $(patsubst src/%.c, %.o, $(SRCS)))
 LIBS := $(addprefix $(LIBDIR)/lib, $(patsubst src/%.c, %.a, $(SRCS)))
-PLIB := $(addprefix $(LIBDIR)/lib, process_race.a)
-TLIB := $(addprefix $(LIBDIR)/lib, thread_race.a)
-
-LIBLINKS := $(addprefix -l, utils curses pthread)
+PLIB := $(addprefix $(LIBDIR)/lib, processes_main.a)
+LIBLINKS := $(addprefix -l, utils ncurses pthread)
 
 all: build
 
