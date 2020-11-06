@@ -42,6 +42,4 @@ int kbhit(void);
 
 void take_input(Race**);
 
-void take_input_thread(Race**, pthread_mutex_t);
-
 #endif
