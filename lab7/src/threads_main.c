@@ -1,96 +1,112 @@
 #include "../include/race.h"
-#include "../include/tolink.h"
 #include "../include/standard.h"
 #include "../include/params.h"
+#include "../include/procs_threads.h"
 
+
+pthread_t tid[4];
+pthread_mutex_t race_lock;
+pthread_mutex_t cons_lock;
 
 Race *race;
-Mutex *mutex;
-pthread_t tid[4];
-int retval[4];
 
+//void *reporter();
+void *god();
+void *hare();
+void *turtle();
 
-void* god();
-void* reporter();
-void* hare();
-void* turtle();
-
-int main(int argc, char **argv) {
+int main() {
+	memset(tid, 0, sizeof(tid));
 	init_race(&race);
-	init_mutex(&mutex);
-	if (pthread_mutex_init(&mutex -> lock, NULL) != 0) {
-		printf("Mutex init has failed.\n");
-		exit(1);
+	if(pthread_mutex_init(&race_lock, NULL) != 0) {
+		printf("Initializing mutex for race structure failed! Exiting.\n");
+		return 0;
 	}
-//	if (pthread_cond_init(&mutex -> r2t, NULL) != 0 || pthread_cond_init(&mutex -> r2h, NULL) != 0) {
-//		printf("Condition init failed.\n");
-//		exit(1);
+	if(pthread_mutex_init(&cons_lock, NULL) != 0) {
+		printf("Initializing mutex for console failed! Exiting.\n");
+		return 0;
+	}
+
+	Thread_args *args = (Thread_args*) malloc (sizeof(Thread_args));
+	args -> cons_lock = cons_lock;
+	args -> race_lock = race_lock;
+	args -> race = &race;
+
+	pthread_create (&tid[TURTLE], NULL, turtle, NULL);
+	pthread_create (&tid[HARE], NULL, hare, NULL);
+	pthread_create (&tid[REPORT], NULL, reporter_thread, (void *) args);
+	pthread_create (&tid[GOD], NULL, god, NULL);
+
+	pthread_join (tid[TURTLE], NULL);
+	pthread_join (tid[HARE], NULL);
+	pthread_join (tid[REPORT], NULL);
+	pthread_join (tid[GOD], NULL);
+
+	printf("Hare's stats: (%ld in %ld)\nTurtle's stats: (%ld in %ld)\n", race -> hare_pos, race -> hare_time, race -> turt_pos, race -> turt_time);
+
+	if (turt_won) {
+		printf("Winner: Turtle");
+	} else if (hare_won) {
+		printf("Winner: Hare");
+	} else {
+		printf("Race Tied");
+	}
+	return 0;
+}
+
+//void *reporter() {
+//
+//	while(race -> turt_pos < race -> distance || race -> hare_pos < race -> distance) {
+//		usleep(race -> print_interval);
+//		pthread_mutex_lock (&cons_lock);
+//		print_race(race);
+//		pthread_mutex_unlock (&cons_lock);
 //	}
-//	retval[GOD] = pthread_create(&tid[GOD], NULL, god, NULL);
-	retval[REPORT] = pthread_create(&tid[REPORT], NULL, reporter, NULL);
-	retval[HARE] = pthread_create(&tid[HARE], NULL, hare, NULL);
-	retval[TURTLE] = pthread_create(&tid[TURTLE], NULL, turtle, NULL);
-	if(retval[GOD] || retval[REPORT] || retval[HARE] || retval[TURTLE]) {
-		printf("Thread creation failed");
-		exit(1);
-	}
-	pthread_mutex_destroy(&mutex->lock);
-	pthread_exit(NULL);
-}
+//	print_race(race);
+//	pthread_exit(NULL);
+//}
 
-void* god() {
-	pthread_detach(tid[GOD]);
-//	for(;;) {
-//		pthread_mutex_lock(&mutex -> lock);
-//		if (!race -> winner) break;
-//		pthread_mutex_unlock(&mutex -> lock);
-//	}
-	pthread_exit(NULL);
-}
-
-void* reporter() {
-	pthread_detach(tid[REPORT]);
-	for(;;) {
-		pthread_mutex_lock(&mutex -> lock);
-		if (race -> winner != 0) break;
-		print_race(race);
-		if(race -> turt_pos >= race -> distance) {
-			race -> winner = TURTLE;
-			break;
-		} else if (race -> hare_pos >= race -> distance) {
-			race -> winner = HARE;
-			break;
+void *god() {
+	while(race -> turt_pos < race -> distance || race -> hare_pos < race -> distance) {
+		pthread_mutex_lock (&cons_lock);
+		pthread_mutex_lock (&race_lock);
+		usleep(race -> print_interval);
+		if(kbhit()) {
+			getchar();
+			getchar();
+			take_input(&race);
 		}
-		pthread_mutex_unlock(&mutex -> lock);
+		pthread_mutex_unlock (&cons_lock);
+		pthread_mutex_unlock (&race_lock);
+		pthread_mutex_unlock (&race_lock);
+
 	}
-	printf("Winner: %s\n", race -> winner == 1 ? "Hare" : "Turtle");
 	pthread_exit(NULL);
 }
 
-void* hare() {
-	pthread_detach(tid[HARE]);
-	for(;;) {
-		pthread_mutex_lock(&mutex -> lock);
-		if (race -> winner != 0) break;
-		if(race -> hare_pos - race -> turt_pos >= race -> dist_threshold) {
-			race -> hare_slept = true;
-			int multiplier = rand() % race -> hare_speed;
-			race -> turt_pos += race -> turt_speed * multiplier;
-		} else {
-			race -> hare_pos += race -> hare_speed;
+void *hare() {
+	srand(time(0));
+	while(race -> hare_pos < race -> distance) {
+		if(hare_should_sleep) {
+			int sleeptime = rand() % (race -> distance);
+			usleep(sleeptime);
+			race -> hare_time += sleeptime;
 		}
-		pthread_mutex_unlock(&mutex -> lock);
+		pthread_mutex_lock (&race_lock);
+		race -> hare_pos += race -> hare_speed;
+		race -> hare_time++;
+		pthread_mutex_unlock (&race_lock);
 	}
 	pthread_exit(NULL);
 }
 
-void* turtle() {
-	pthread_detach(tid[TURTLE]);
-	for(;;) {
-		pthread_mutex_lock(&mutex -> lock);
-		if (race -> winner != 0) break;
+void *turtle() {
+
+	while(race -> turt_pos < race -> distance) {
+		pthread_mutex_lock (&race_lock);
 		race -> turt_pos += race -> turt_speed;
-		pthread_mutex_unlock(&mutex -> lock);
+		race -> turt_time++;
+		pthread_mutex_unlock (&race_lock);
 	}
 	pthread_exit(NULL);
 }

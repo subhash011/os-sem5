@@ -9,24 +9,22 @@ typedef struct Race Race;
 typedef struct Mutex Mutex;
 typedef struct Semaphores Semaphores;
 
-struct Race {
-	int hare_pos;
-	int turt_pos;
-	int hare_speed;
-	int turt_speed;
-	int distance;
-	int dist_threshold;
-	bool hare_slept;
-	int winner;
-	int print_interval;
-	bool god_intervenes;
-};
+int a2r[2], a2h[2], a2t[2], a2g[2];
+pid_t pid[4];
 
-struct Mutex {
-	pthread_mutex_t lock;
-	pthread_cond_t r2h;
-	pthread_cond_t r2t;
-	int turn;
+struct Race {
+	long hare_pos; // stores the hare position at any given point.
+	long turt_pos; // stores the turtle position at any given point.
+	long hare_time; // time (unit time = print_interval) taken by hare to complete race.
+	long hare_speed; // stores the hare speed, this can changed while initialising Race struct.
+	long turt_time;  // time (unit time = print_interval) taken by turtle to complete race.
+	long turt_speed; // stores the turtle speed, this can changed while initialising Race struct.
+	long distance; // stores the total distance of the race
+	long dist_threshold; // stores the min distance b/w hare and turtle for the hare to go to sleep.
+	bool hare_slept; // reports if the hare slept or not to the reporter process
+	int winner; // stores the winner of the race
+	long print_interval; // this represents a unit time in program.
+	bool god_intervened; // tells the reporter process if the god has intervened.
 };
 
 enum ProcessMap {
@@ -36,20 +34,9 @@ enum ProcessMap {
 	REPORT,
 };
 
-struct Semaphores {
-	sem_t *h2r;
-	sem_t *t2r;
-	sem_t *r2h;
-	sem_t *r2t;
-	sem_t *g2r;
-	sem_t *r2g;
-};
-
 void print_race(Race*);
 
 void init_race(Race**);
-
-void init_mutex(Mutex**);
 
 int kbhit(void);
 
