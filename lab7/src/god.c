@@ -3,6 +3,9 @@
 #include "../include/params.h"
 #include "../include/standard.h"
 
+/*
+ * god function for simulation using processes
+ * */
 void god_proc(Race **race) {
 	int ch;
 	close(a2g_write);
@@ -26,6 +29,9 @@ void god_proc(Race **race) {
 	close(a2r_write);
 }
 
+/*
+ * god function for simulation using threads
+ * */
 void *god_thread(void *args) {
 	Thread_args *targs = (Thread_args *) args;
 	Race **race = targs -> race;
@@ -34,15 +40,14 @@ void *god_thread(void *args) {
 	while((*race) -> turt_pos < (*race) -> distance || (*race) -> hare_pos < (*race) -> distance) {
 		usleep((*race) -> print_interval);
 		pthread_mutex_lock (&cons_lock);
-		pthread_mutex_lock (&race_lock);
+//		pthread_mutex_lock (&race_lock);
 		if(kbhit()) {
 			getchar();
 			getchar();
-			take_input(race);
+			take_input_thread(race, race_lock);
 		}
 		pthread_mutex_unlock (&cons_lock);
-		pthread_mutex_unlock (&race_lock);
-		pthread_mutex_unlock (&race_lock);
+//		pthread_mutex_unlock (&race_lock);
 
 	}
 	pthread_exit(NULL);

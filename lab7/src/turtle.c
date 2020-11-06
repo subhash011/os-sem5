@@ -3,6 +3,9 @@
 #include "../include/params.h"
 #include "../include/standard.h"
 
+/*
+ * turtle function for simulation using processes
+ * */
 void turtle_proc(Race **race) {
 	close(a2t_write);
 	close(a2r_read);
@@ -17,6 +20,9 @@ void turtle_proc(Race **race) {
 	close(a2r_write);
 }
 
+/*
+ * turtle function for simulation using threads
+ * */
 void *turtle_thread(void *args) {
 	Thread_args *targs = (Thread_args *) args;
 	Race **race = targs -> race;

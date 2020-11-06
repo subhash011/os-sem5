@@ -1,3 +1,6 @@
 cmake-build-debug/
 CMakeLists.txt
 .idea
+lab7/bin
+lab7/lib
+lab7/obj

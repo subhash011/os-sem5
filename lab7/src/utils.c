@@ -98,3 +98,43 @@ void take_input(Race **race) {
 	getchar();
 	(*race) -> god_intervened = true;
 }
+
+void take_input_thread(Race **race, pthread_mutex_t race_lock) {
+	char conf , who;
+	int newpos;
+	printf("Do you want to change the race state ? [Y/n] ");
+	conf = getchar();
+	getchar();
+	if(conf == 'Y' || conf == 'y') {
+		while (1) {
+			printf("Whose position do you want to change ? Hare [H] or Turtle [T] or Quit [Q]");
+			who = getchar();
+			if(who == 'H' || who == 'h') {
+				printf("Curent position: %ld", (*race) -> hare_pos);
+				printf("\nEnter new position: ");
+				scanf("%d", &newpos);
+				pthread_mutex_lock(&race_lock);
+				(*race) -> hare_pos = newpos;
+				pthread_mutex_unlock(&race_lock);
+				break;
+			} else if (who == 'T' || who == 't') {
+				printf("Curent position: %ld", (*race) -> turt_pos);
+				printf("\nEnter new position: ");
+				scanf("%d", &newpos);
+				pthread_mutex_lock(&race_lock);
+				(*race) -> turt_pos = newpos;
+				pthread_mutex_unlock(&race_lock);
+				break;
+			} else if (who == 'Q' || who == 'q') {
+				getchar();
+				return;
+			} else {
+				printf("Invalid option provided\n");
+			}
+		}
+	} else {
+		return;
+	}
+	getchar();
+	(*race) -> god_intervened = true;
+}

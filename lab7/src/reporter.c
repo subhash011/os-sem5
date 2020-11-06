@@ -3,25 +3,9 @@
 #include "../include/params.h"
 #include "../include/standard.h"
 
-void *reporter_thread(void *args) {
-	Thread_args *targs = (Thread_args *)args;
-	Race **race = targs -> race;
-	Race *prev_state = (Race *) malloc(sizeof(Race));
-	pthread_mutex_t cons_lock = targs -> cons_lock;
-	pthread_mutex_t race_lock = targs -> race_lock;
-	while((*race) -> turt_pos < (*race) -> distance || (*race) -> hare_pos < (*race) -> distance) {
-		usleep((*race) -> print_interval);
-		pthread_mutex_lock (&cons_lock);
-		if(race_state_changed) {
-			print_race(*race);
-		}
-		*prev_state = **race;
-		pthread_mutex_unlock (&cons_lock);
-	}
-	print_race(*race);
-	pthread_exit(NULL);
-}
-
+/*
+ * reporter function for simulation using processes
+ * */
 void reporter_proc(Race **race) {
 	close(a2h_read);
 	close(a2t_read);
@@ -74,4 +58,26 @@ void reporter_proc(Race **race) {
 	close(a2h_write);
 	close(a2t_write);
 	close(a2r_read);
+}
+
+/*
+ * reporter function for simulation using threads
+ * */
+void *reporter_thread(void *args) {
+	Thread_args *targs = (Thread_args *)args;
+	Race **race = targs -> race;
+	Race *prev_state = (Race *) malloc(sizeof(Race));
+	pthread_mutex_t cons_lock = targs -> cons_lock;
+	pthread_mutex_t race_lock = targs -> race_lock;
+	while((*race) -> turt_pos < (*race) -> distance || (*race) -> hare_pos < (*race) -> distance) {
+		usleep((*race) -> print_interval);
+		pthread_mutex_lock (&cons_lock);
+		if(race_state_changed) {
+			print_race(*race);
+		}
+		*prev_state = **race;
+		pthread_mutex_unlock (&cons_lock);
+	}
+	print_race(*race);
+	pthread_exit(NULL);
 }

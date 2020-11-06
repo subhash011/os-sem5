@@ -3,6 +3,9 @@
 #include "../include/params.h"
 #include "../include/standard.h"
 
+/*
+ * hare function for simulation using processes
+ * */
 void hare_proc(Race **race) {
 	close(a2h_write);
 	close(a2r_read);
@@ -27,6 +30,9 @@ void hare_proc(Race **race) {
 	close(a2r_write);
 }
 
+/*
+ * hare function for simulation using threads
+ * */
 void *hare_thread(void *args) {
 	Thread_args *targs = (Thread_args *) args;
 	Race **race = targs -> race;
@@ -35,7 +41,7 @@ void *hare_thread(void *args) {
 	srand(time(0));
 	while((*race) -> hare_pos < (*race) -> distance) {
 		if(hare_should_sleep) {
-			int sleeptime = rand() % ((*race) -> distance);
+			int sleeptime = ((rand() % 3) + 1) * ((*race) -> print_interval == 0 ? 1 : (*race) -> print_interval);
 			usleep(sleeptime);
 			(*race) -> hare_time += sleeptime;
 		}
