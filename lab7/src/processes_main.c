@@ -58,13 +58,9 @@
 #include "../include/race.h"
 #include "../include/standard.h"
 #include "../include/params.h"
+#include "../include/procs_threads.h"
 
 Race* race;
-
-void reporter();
-void god();
-void hare();
-void turtle();
 
 int main(int argc, char **argv) {
 	int status[4];
@@ -94,16 +90,16 @@ int main(int argc, char **argv) {
 		waitpid(pid[HARE], &status[HARE], 0);
 	}
 	else if(!pid[GOD] && !pid[REPORT] && !pid[HARE] && !pid[TURTLE]) {
-		god();
+		god_proc(&race);
 	}
 	else if(pid[GOD] && !pid[REPORT] && !pid[HARE] && !pid[TURTLE]) {
-		reporter();
+		reporter_proc(&race);
 	}
 	else if(pid[GOD] && pid[REPORT] && !pid[HARE] && !pid[TURTLE]) {
-		hare();
+		hare_proc(&race);
 	}
 	else if (pid[GOD] && pid[REPORT] && pid[HARE] && !pid[TURTLE]) {
-		turtle();
+		turtle_proc(&race);
 	}
 
 	/*
@@ -117,120 +113,5 @@ int main(int argc, char **argv) {
 		close(a2g[i]);
 	}
 	return 0;
-}
-
-void reporter() {
-	close(a2h_read);
-	close(a2t_read);
-	close(a2g_read);
-	close(a2r_write);
-	race -> hare_pos = 0;
-	race -> turt_pos = 0;
-	race -> hare_time = 0;
-	race -> turt_time = 0;
-	print_race(race);
-	usleep(race -> print_interval);
-	Race *t = (struct Race*) malloc(sizeof(struct Race));
-	Race *h = (struct Race*) malloc(sizeof(struct Race));
-	Race *g = (struct Race*) malloc(sizeof(struct Race));
-	int itr = 0;
-	for(;;) {
-		write(a2t_write, race, sizeof(*race));
-		read(a2r_read, t, sizeof(*race));
-		write(a2h_write, race, sizeof(*race));
-		read(a2r_read, h, sizeof(*race));
-		if(h -> hare_slept) {
-			race -> turt_pos = h -> turt_pos;
-			race -> turt_time = h -> turt_time;
-		} else {
-			race -> turt_pos = t -> turt_pos;
-			race -> turt_time = t -> turt_time;
-		}
-		race -> hare_pos = h -> hare_pos;
-		race -> hare_time = h -> hare_time;
-		print_race(race);
-		if(turt_completed) {
-			race -> winner = TURTLE;
-			break;
-		} else if(hare_completed) {
-			race -> winner = HARE;
-			break;
-		}
-		write(a2g_write, race, sizeof(*race));
-		read(a2r_read, race, sizeof(*race));
-		if(race -> god_intervened) {
-			race -> god_intervened = false;
-			print_race(race);
-			usleep(race -> print_interval);
-		}
-	}
-	write(a2g_write, race, sizeof(*race));
-	write(a2h_write, race, sizeof(*race));
-	write(a2t_write, race, sizeof(*race));
-	printf("Winner: %s\n", race -> winner == 1 ? "Hare" : "Turtle");
-	close(a2h_write);
-	close(a2t_write);
-	close(a2r_read);
-}
-
-void god() {
-	int ch;
-	close(a2g_write);
-	close(a2r_read);
-	int c;
-	for(;;) {
-		read(a2g_read, race, sizeof(*race));
-		if(race -> winner != 0) break;
-		usleep(race -> print_interval);
-		// if user has pressed a key, consider repositioning
-		if(kbhit()) {
-			getchar();
-			getchar();
-			take_input(&race);
-		} else {
-			race -> god_intervened = false;
-		}
-		write(a2r_write, race, sizeof(*race));
-	}
-	close(a2g_read);
-	close(a2r_write);
-}
-
-void hare() {
-	close(a2h_write);
-	close(a2r_read);
-	srand(time(0));
-	for(;;) {
-		read(a2h_read, race, sizeof(*race));
-		if(race -> winner != 0) break;
-		// if hare is far ahead in the race, let it sleep
-		if(hare_should_sleep) {
-			race -> hare_slept = true;
-			int multiplier = rand() % (2* race -> dist_threshold/race -> turt_speed);
-			race -> turt_pos += race -> turt_speed * multiplier;
-			race -> turt_time += multiplier;
-			race -> hare_time += multiplier;
-		} else {
-			race -> hare_pos += race -> hare_speed;
-			race -> hare_time++;
-		}
-		write(a2r_write, race, sizeof(*race));
-	}
-	close(a2h_read);
-	close(a2r_write);
-}
-
-void turtle() {
-	close(a2t_write);
-	close(a2r_read);
-	for(;;) {
-		read(a2t_read, race, sizeof(*race));
-		if(race -> winner != 0) break;
-		race -> turt_pos += race -> turt_speed;
-		race -> turt_time++;
-		write(a2r_write, race, sizeof(*race));
-	}
-	close(a2t_read);
-	close(a2r_write);
 }
 

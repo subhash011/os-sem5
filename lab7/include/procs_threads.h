@@ -13,14 +13,14 @@ struct Thread_args {
 };
 
 
-//void god_proc();
-//void hare_proc();
-//void turtle_proc();
-void reporter_proc();
-//
-//void* god_thread();
-//void* hare_thread();
-//void* turtle_thread();
+void god_proc(Race **race);
+void hare_proc(Race **race);
+void turtle_proc(Race **race);
+void reporter_proc(Race **race);
+
+void* god_thread(void*);
+void* hare_thread(void*);
+void* turtle_thread(void*);
 void *reporter_thread(void*);
 
 #endif
