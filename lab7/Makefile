@@ -11,15 +11,15 @@ SRCS := $(wildcard src/*.c)
 OBJS := $(addprefix $(OBJDIR)/, $(patsubst src/%.c, %.o, $(SRCS)))
 LIBS := $(addprefix $(LIBDIR)/lib, $(patsubst src/%.c, %.a, $(SRCS)))
 PLIB := $(addprefix $(LIBDIR)/lib, processes_main.a)
-LIBLINKS := $(addprefix -l, utils pthread)
+LIBLINKS := $(addprefix -l, utils pthread god hare turtle reporter)
 
 all: build
 
 .PHONY: build
 build: $(EXE) | $(EXEDIR)
+	@rm -rf $(LIBDIR) $(OBJDIR)
 	@echo "Finished Compiling with static libraries"
 
-.PRECIOUS: $(OBJS)
 $(EXEDIR)/%: src/%.c liba | $(EXEDIR)
 	gcc -o $@ -I $(INCDIR) $< -L $(LIBDIR) $(LIBLINKS)
 

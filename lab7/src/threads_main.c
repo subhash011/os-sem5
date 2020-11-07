@@ -71,11 +71,11 @@ int main() {
 	printf("Hare's stats: (%ld in %ld)\nTurtle's stats: (%ld in %ld)\n", race -> hare_pos, race -> hare_time, race -> turt_pos, race -> turt_time);
 
 	if (turt_won) {
-		printf("Winner: Turtle");
+		printf("Winner: Turtle\n");
 	} else if (hare_won) {
-		printf("Winner: Hare");
+		printf("Winner: Hare\n");
 	} else {
-		printf("Race Tied");
+		printf("Race Tied\n");
 	}
 	return 0;
 }

@@ -66,34 +66,40 @@ int kbhit(void)
 void take_input() {
 	char conf , who;
 	long newpos;
-	printf("Do you want to change the race state ? [Y/n] ");
-	conf = getchar();
-	getchar();
-	if(conf == 'Y' || conf == 'y') {
-		while (1) {
-			printf("Whose position do you want to change ? Hare [H] or Turtle [T] or Quit [Q]");
-			who = getchar();
-			if(who == 'H' || who == 'h') {
-				printf("Curent position: %ld", race -> hare_pos);
-				printf("\nEnter new position: ");
-				scanf("%ld", &newpos);
-				race -> hare_pos = newpos;
-				break;
-			} else if (who == 'T' || who == 't') {
-				printf("Curent position: %ld", race -> turt_pos);
-				printf("\nEnter new position: ");
-				scanf("%ld", &newpos);
-				race -> turt_pos = newpos;
-				break;
-			} else if (who == 'Q' || who == 'q') {
-				getchar();
-				return;
-			} else {
-				printf("Invalid option provided\n");
+	while(1) {
+		printf("Do you want to change the race state ? [Y/n] ");
+		conf = getchar();
+		if(conf == 'Y' || conf == 'y') {
+			getchar();
+			while (1) {
+				printf("Whose position do you want to change ? Hare [H] or Turtle [T] or Quit [Q]");
+				who = getchar();
+				if(who == 'H' || who == 'h') {
+					printf("Curent position: %ld", race -> hare_pos);
+					printf("\nEnter new position: ");
+					scanf("%ld", &newpos);
+					race -> hare_pos = newpos;
+					break;
+				} else if (who == 'T' || who == 't') {
+					printf("Curent position: %ld", race -> turt_pos);
+					printf("\nEnter new position: ");
+					scanf("%ld", &newpos);
+					race -> turt_pos = newpos;
+					break;
+				} else if (who == 'Q' || who == 'q') {
+					break;
+				} else {
+					printf("[%c] is an invalid option, select [H] or [T] or [Q]\n", who);
+					getchar();
+				}
 			}
+			break;
+		} else if (conf == 'N' || conf == 'n') {
+			break;
+		} else {
+			printf("[%c] is an invalid option, select [Y] or [N]\n", conf);
+			getchar();
 		}
-	} else {
-		return;
 	}
 	getchar();
 	race -> god_intervened = true;
