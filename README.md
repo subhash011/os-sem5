@@ -13,8 +13,6 @@
 #### How to reposition during the race
     - The god process polls for input and repositions accordingly.
     - The steps to reposition are same in the processes as well as the threads version
-    - The program polls for a keypress to reposition, so the user has two optioons 
-        1. press any character and hit enter
-        2. hit the enter key twice
-    - Both the above methods work, once this is done, all other threads and processes are blocked so the user can reposition the hare or the turtle using 
+    - The program requires an enter key to be interrupted, so to reposition, the user has to press an enter key.
+    - Once the program is interrupted, all other threads and processes are blocked so the user can reposition the hare or the turtle using 
       the prompts given. Once done the race starts from the state where the god process left.

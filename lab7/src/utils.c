@@ -66,13 +66,14 @@ int kbhit(void)
 void take_input() {
 	char conf , who;
 	long newpos;
+	getchar();
 	while(1) {
 		printf("Do you want to change the race state ? [Y/n] ");
 		conf = getchar();
 		if(conf == 'Y' || conf == 'y') {
 			getchar();
 			while (1) {
-				printf("Whose position do you want to change ? Hare [H] or Turtle [T] or Quit [Q]");
+				printf("Whose position do you want to change ? Hare [H] or Turtle [T] or Quit [Q] ");
 				who = getchar();
 				if(who == 'H' || who == 'h') {
 					printf("Curent position: %ld", race -> hare_pos);
@@ -89,7 +90,12 @@ void take_input() {
 				} else if (who == 'Q' || who == 'q') {
 					break;
 				} else {
-					printf("[%c] is an invalid option, select [H] or [T] or [Q]\n", who);
+					if(who == '\n') {
+						printf("Invalid option, select [H] or [T] or [Q]\n");
+						ungetc('\n', stdin);
+					} else {
+						printf("[%c] is an invalid option, select [H] or [T] or [Q]\n", who);
+					}
 					getchar();
 				}
 			}
@@ -97,7 +103,12 @@ void take_input() {
 		} else if (conf == 'N' || conf == 'n') {
 			break;
 		} else {
-			printf("[%c] is an invalid option, select [Y] or [N]\n", conf);
+			if(conf == '\n') {
+				printf("Invalid option, select [Y] or [N]\n");
+				ungetc('\n', stdin);
+			} else {
+				printf("[%c] is an invalid option, select [Y] or [N]\n", conf);
+			}
 			getchar();
 		}
 	}

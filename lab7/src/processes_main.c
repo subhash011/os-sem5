@@ -26,10 +26,9 @@
  *     This can be intervened by the user to change the position of the hare or the turtle
  *     at any point in time.
  *     How it works:
- *     The god polls the console for input, the user can press any character and hit enter or
- *     more easily hit the enter key twice, this will block all other process and the god process
- *     can now continue with repositioning, after which this change will be notified to the hare
- *     and turtle process through the reporter.
+ *     The god polls the console for input, the user can press the enter key which will block
+ *     all other process and the god process can now continue with repositioning, after which this
+ *     change will be notified to the hare and turtle process through the reporter.
  *
  *
  *         | --> Reporter
