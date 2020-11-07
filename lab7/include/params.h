@@ -16,11 +16,10 @@
 #define a2h_read a2h[0]
 #define a2h_write a2h[1]
 
-#define race_state_changed (((*race) -> hare_pos != prev_state -> hare_pos) || ((*race) -> turt_pos != prev_state -> turt_pos))
-#define hare_should_sleep ((*race) -> hare_pos - (*race) -> turt_pos >= (*race) -> dist_threshold)
+#define race_state_changed ((race -> hare_pos != prev_state -> hare_pos) || (race -> turt_pos != prev_state -> turt_pos))
+#define hare_should_sleep (race -> hare_pos - race -> turt_pos >= race -> dist_threshold)
 #define hare_won (race -> hare_time < race -> turt_time)
 #define turt_won (race -> hare_time > race -> turt_time)
-#define hare_completed ((*race) -> hare_pos >= (*race) -> distance)
-#define turt_completed ((*race) -> turt_pos >= (*race) -> distance)
-
+#define hare_completed (race -> hare_pos >= race -> distance)
+#define turt_completed (race -> turt_pos >= race -> distance)
 #endif

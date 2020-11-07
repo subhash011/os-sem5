@@ -37,46 +37,38 @@
  *
  * */
 
-
 #include "../include/race.h"
 #include "../include/standard.h"
 #include "../include/params.h"
 #include "../include/procs_threads.h"
 
-pthread_t tid[4];
-pthread_mutex_t race_lock = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t cons_lock = PTHREAD_MUTEX_INITIALIZER;
-//pthread_cond_t god_wait = PTHREAD_COND_INITIALIZER;
-
-Race *race;
-
 int main() {
-	// initialise tid's to zero
 	memset(tid, 0, sizeof(tid));
-	init_race(&race);
-	race -> distance = 1e8;
-	race -> dist_threshold = 1e2;
-	race -> print_interval = 1e2;
-	/*
-	 * Fill the thread ars struct so that the values can be passed on to threads.
-	 * */
-	Thread_args *args = (Thread_args*) malloc (sizeof(Thread_args));
-	args -> cons_lock = cons_lock;
-	args -> race_lock = race_lock;
-	args -> race = &race;
+	memset(tid, 0, sizeof(tid));
+	init_race();
+	race -> distance = 1e12;
+	race -> dist_threshold = 1e3;
+	race -> print_interval = 1e6;
+	if(pthread_mutex_init(&race_lock, NULL) != 0) {
+		printf("Initializing mutex for race structure failed! Exiting.\n");
+		return 0;
+	}
+	if(pthread_mutex_init(&cons_lock, NULL) != 0) {
+		printf("Initializing mutex for console failed! Exiting.\n");
+		return 0;
+	}
 
-	pthread_create (&tid[TURTLE], NULL, turtle_thread, (void *) args);
-	pthread_create (&tid[HARE], NULL, hare_thread, (void *) args);
-	pthread_create (&tid[REPORT], NULL, reporter_thread, (void *) args);
-	pthread_create (&tid[GOD], NULL, god_thread, (void *) args);
+	pthread_create (&tid[TURTLE], NULL, turtle_thread, NULL);
+	pthread_create (&tid[HARE], NULL, hare_thread, NULL);
+	pthread_create (&tid[REPORT], NULL, reporter_thread, NULL);
+	pthread_create (&tid[GOD], NULL, god_thread, NULL);
 
 	pthread_join (tid[TURTLE], NULL);
 	pthread_join (tid[HARE], NULL);
 	pthread_join (tid[REPORT], NULL);
 	pthread_join (tid[GOD], NULL);
 
-	printf("Hare's stats: (%ld in %ld)\nTurtle's stats: (%ld in %ld)\n",
-		race -> hare_pos, race -> hare_time, race -> turt_pos, race -> turt_time);
+	printf("Hare's stats: (%ld in %ld)\nTurtle's stats: (%ld in %ld)\n", race -> hare_pos, race -> hare_time, race -> turt_pos, race -> turt_time);
 
 	if (turt_won) {
 		printf("Winner: Turtle");

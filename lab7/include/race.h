@@ -27,6 +27,8 @@ struct Race {
 	bool god_intervened; // the reporter process if the god has intervened.
 };
 
+Race *race;
+
 enum ProcessMap {
 	GOD,
 	HARE,
@@ -34,12 +36,12 @@ enum ProcessMap {
 	REPORT,
 };
 
-void print_race(Race*);
+void print_race();
 
-void init_race(Race**);
+void init_race();
 
 int kbhit(void);
 
-void take_input(Race**);
+void take_input();
 
 #endif

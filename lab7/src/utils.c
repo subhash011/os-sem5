@@ -6,27 +6,27 @@
  *  This can be called to initialise the race structure.
  *  The explanations of the variables are in the race.h file.
  * */
-void init_race(Race **r) {
-	(*r) = (struct Race*) malloc(sizeof(struct Race));
-	(*r) -> hare_speed = HARE_SPEED;
-	(*r) -> turt_speed = TURT_SPEED;
-	(*r) -> hare_pos = 0;
-	(*r) -> turt_pos = 0;
-	(*r) -> hare_time = 0;
-	(*r) -> turt_time = 0;
-	(*r) -> distance = RACE_DIST;
-	(*r) -> dist_threshold = MAX_GAP;
-	(*r) -> winner = 0;
-	(*r) -> hare_slept = false;
-	(*r) -> print_interval = PRINT_INTERVAL;
-	(*r) -> god_intervened = false;
+void init_race() {
+	race = (struct Race*) malloc(sizeof(struct Race));
+	race -> hare_speed = HARE_SPEED;
+	race -> turt_speed = TURT_SPEED;
+	race -> hare_pos = 0;
+	race -> turt_pos = 0;
+	race -> hare_time = 0;
+	race -> turt_time = 0;
+	race -> distance = RACE_DIST;
+	race -> dist_threshold = MAX_GAP;
+	race -> winner = 0;
+	race -> hare_slept = false;
+	race -> print_interval = PRINT_INTERVAL;
+	race -> god_intervened = false;
 }
 /*
  *  prints the state of the race when called.
  * */
-void print_race(Race* r) {
+void print_race() {
 	printf("Hare pos: %ld, Turtle pos: %ld, Hare speed: %ld, Turtle speed: %ld\n",
-	       r -> hare_pos, r->turt_pos, r->	hare_speed, r->turt_speed);
+	       race -> hare_pos, race -> turt_pos, race -> hare_speed, race -> turt_speed);
 }
 
 /*
@@ -63,9 +63,9 @@ int kbhit(void)
  *  this function can be called to take input from the god process.
  *  it sets god_intervened to true.
  * */
-void take_input(Race **race) {
+void take_input() {
 	char conf , who;
-	int newpos;
+	long newpos;
 	printf("Do you want to change the race state ? [Y/n] ");
 	conf = getchar();
 	getchar();
@@ -74,16 +74,16 @@ void take_input(Race **race) {
 			printf("Whose position do you want to change ? Hare [H] or Turtle [T] or Quit [Q]");
 			who = getchar();
 			if(who == 'H' || who == 'h') {
-				printf("Curent position: %ld", (*race) -> hare_pos);
+				printf("Curent position: %ld", race -> hare_pos);
 				printf("\nEnter new position: ");
-				scanf("%d", &newpos);
-				(*race) -> hare_pos = newpos;
+				scanf("%ld", &newpos);
+				race -> hare_pos = newpos;
 				break;
 			} else if (who == 'T' || who == 't') {
-				printf("Curent position: %ld", (*race) -> turt_pos);
+				printf("Curent position: %ld", race -> turt_pos);
 				printf("\nEnter new position: ");
-				scanf("%d", &newpos);
-				(*race) -> turt_pos = newpos;
+				scanf("%ld", &newpos);
+				race -> turt_pos = newpos;
 				break;
 			} else if (who == 'Q' || who == 'q') {
 				getchar();
@@ -96,5 +96,5 @@ void take_input(Race **race) {
 		return;
 	}
 	getchar();
-	(*race) -> god_intervened = true;
+	race -> god_intervened = true;
 }

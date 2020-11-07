@@ -60,12 +60,10 @@
 #include "../include/params.h"
 #include "../include/procs_threads.h"
 
-Race* race;
-
 int main(int argc, char **argv) {
 	int status[4];
 	memset(pid, 0, sizeof(pid));
-	init_race(&race);
+	init_race();
 	// Create the four pipes
 	pipe(a2r);
 	pipe(a2g);
@@ -90,16 +88,16 @@ int main(int argc, char **argv) {
 		waitpid(pid[HARE], &status[HARE], 0);
 	}
 	else if(!pid[GOD] && !pid[REPORT] && !pid[HARE] && !pid[TURTLE]) {
-		god_proc(&race);
+		god_proc();
 	}
 	else if(pid[GOD] && !pid[REPORT] && !pid[HARE] && !pid[TURTLE]) {
-		reporter_proc(&race);
+		reporter_proc();
 	}
 	else if(pid[GOD] && pid[REPORT] && !pid[HARE] && !pid[TURTLE]) {
-		hare_proc(&race);
+		hare_proc();
 	}
 	else if (pid[GOD] && pid[REPORT] && pid[HARE] && !pid[TURTLE]) {
-		turtle_proc(&race);
+		turtle_proc();
 	}
 
 	/*
