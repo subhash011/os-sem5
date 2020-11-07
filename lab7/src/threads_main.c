@@ -46,9 +46,9 @@ int main() {
 	memset(tid, 0, sizeof(tid));
 	memset(tid, 0, sizeof(tid));
 	init_race();
-	race -> distance = 1e12;
+	race -> distance = 1e8;
 	race -> dist_threshold = 1e3;
-	race -> print_interval = 1e6;
+	race -> print_interval = 0;
 	if(pthread_mutex_init(&race_lock, NULL) != 0) {
 		printf("Initializing mutex for race structure failed! Exiting.\n");
 		return 0;

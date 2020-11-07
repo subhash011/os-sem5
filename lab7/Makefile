@@ -26,6 +26,7 @@ $(EXEDIR)/%: src/%.c liba | $(EXEDIR)
 liba: $(LIBS) | $(LIBDIR)
 	@echo "Finished generating static libraries at lib/"
 
+.PRECIOUS: $(OBJS)
 $(LIBDIR)/lib%.a: $(OBJDIR)/%.o | $(LIBDIR)
 	ar rcs $@ $^
 
