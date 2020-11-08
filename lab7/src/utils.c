@@ -34,7 +34,7 @@ void start_race(void) {
 	usleep(race -> print_interval);
 }
 
-void print_result(bool threaded) {
+void print_result(void) {
 	printf("\n=============== Race Ends ===============\n");
 	printf("Hare's stats: (%ld in %ld)\nTurtle's stats: (%ld in %ld)\n", race -> hare_pos, race -> hare_time, race -> turt_pos, race -> turt_time);
 	if (turt_won) {

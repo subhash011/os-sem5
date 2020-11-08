@@ -41,7 +41,6 @@ void *god_thread(void* args) {
 		pthread_mutex_unlock (&turt_lock);
 		pthread_mutex_unlock (&hare_lock);
 		pthread_mutex_unlock (&cons_lock);
-
 	}
 	pthread_exit(NULL);
 }

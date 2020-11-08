@@ -1,9 +1,7 @@
-LIBDIR := lib
-OBJDIR := obj
-EXEDIR := bin
-INCDIR := include
-
-#$(addprefix $(EXEDIR)/, $(basename $(notdir $(wildcard src/*.c))))
+LIBDIR := ./lib
+OBJDIR := ./obj
+EXEDIR := ./bin
+INCDIR := ./include
 
 EXE := bin/processes_main bin/threads_main
 FILES := $(basename $(notdir $(wildcard src/*.c)))
@@ -11,13 +9,13 @@ SRCS := $(wildcard src/*.c)
 OBJS := $(addprefix $(OBJDIR)/, $(patsubst src/%.c, %.o, $(SRCS)))
 LIBS := $(addprefix $(LIBDIR)/lib, $(patsubst src/%.c, %.a, $(SRCS)))
 PLIB := $(addprefix $(LIBDIR)/lib, processes_main.a)
+INCS := $(addprefix $(INCDIR)/, $(notdir $(wildcard include/*.h)))
 LIBLINKS := $(addprefix -l, utils pthread god hare turtle reporter)
 
-all: build
+all: build $(INCS)
 
 .PHONY: build
 build: $(EXE) | $(EXEDIR)
-	@rm -rf $(LIBDIR) $(OBJDIR)
 	@echo "Finished Compiling with static libraries"
 
 $(EXEDIR)/%: src/%.c liba | $(EXEDIR)
@@ -30,7 +28,7 @@ liba: $(LIBS) | $(LIBDIR)
 $(LIBDIR)/lib%.a: $(OBJDIR)/%.o | $(LIBDIR)
 	ar rcs $@ $^
 
-$(OBJDIR)/%.o: src/%.c $(INCLUDES) | $(OBJDIR)
+$(OBJDIR)/%.o: src/%.c $(INCS) | $(OBJDIR)
 	gcc -o $@ -c -I $(INCDIR) $<
 
 $(EXEDIR):

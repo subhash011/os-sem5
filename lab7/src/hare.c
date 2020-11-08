@@ -16,7 +16,7 @@ void hare_proc(void) {
 		// if hare is far ahead in the race, let it sleep
 		if(hare_should_sleep) {
 			race -> hare_slept = true;
-			int multiplier = rand() % (2* race -> dist_threshold/race -> turt_speed);
+			int multiplier = (rand() % (2* race -> dist_threshold/race -> turt_speed)) + 1;
 			race -> turt_pos += race -> turt_speed * multiplier;
 			race -> turt_time += multiplier;
 			race -> hare_time += multiplier;
@@ -42,7 +42,7 @@ void *hare_thread(void* args) {
 			prev_turt_pos = race -> turt_pos;
 			long sleeptime = ((rand() % 500000000) + 1) * (race -> print_interval == 0 ? 1 : race -> print_interval);
 			nanosleep((const struct timespec[]){{0, sleeptime}}, NULL);
-			race -> hare_time += (race -> turt_pos - prev_turt_pos) * race -> turt_speed;
+			race -> hare_time += (race -> turt_pos - prev_turt_pos) / race -> turt_speed;
 		}
 		race -> hare_pos += race -> hare_speed;
 		race -> hare_time++;

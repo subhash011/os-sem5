@@ -47,7 +47,7 @@ void take_input(void);
 /*
  * prints the final result of the race
  * */
-void print_result(bool);
+void print_result(void);
 
 void start_race(void);
 
