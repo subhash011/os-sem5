@@ -23,7 +23,7 @@
  *     This can be intervened by the user to change the position of the hare or the turtle
  *     at any point in time.
  *     How it works:
- *     The god thread polls the console for input, the user can press the enter key which will block all
+ *     The god thread polls the console for input, the user can press any key to block all the
  *     other threads since the god process acquires all the locks before getting to run, after this, the
  *     god process can now continue with repositioning.
  *

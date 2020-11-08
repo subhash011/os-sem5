@@ -6,7 +6,7 @@
 /*
  * hare function for simulation using processes
  * */
-void hare_proc() {
+void hare_proc(void) {
 	close(a2h_write);
 	close(a2r_read);
 	srand(time(0));
@@ -33,7 +33,7 @@ void hare_proc() {
 /*
  * hare function for simulation using threads
  * */
-void *hare_thread() {
+void *hare_thread(void* args) {
 	srand(time(0));
 	while(!hare_completed) {
 		if(hare_should_sleep) {

@@ -36,12 +36,12 @@ enum ProcessMap {
 	REPORT,
 };
 
-void print_race();
+void print_race(void);
 
-void init_race();
+void init_race(void);
 
 int kbhit(void);
 
-void take_input();
+void take_input(void);
 
 #endif

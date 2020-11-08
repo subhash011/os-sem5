@@ -6,7 +6,7 @@
 /*
  * god function for simulation using processes
  * */
-void god_proc() {
+void god_proc(void) {
 	int ch;
 	close(a2g_write);
 	close(a2r_read);
@@ -17,7 +17,7 @@ void god_proc() {
 		usleep(race -> print_interval);
 		// if user has pressed a key, consider repositioning
 		if(kbhit()) {
-			take_input(&race);
+			take_input();
 		} else {
 			race -> god_intervened = false;
 		}
@@ -30,12 +30,12 @@ void god_proc() {
 /*
  * god function for simulation using threads
  * */
-void *god_thread() {
+void *god_thread(void* args) {
 	while(!hare_completed || !turt_completed) {
 		pthread_mutex_lock (&cons_lock);
 		pthread_mutex_lock (&race_lock);
 		if(kbhit()) {
-			take_input(&race);
+			take_input();
 		}
 		pthread_mutex_unlock (&race_lock);
 		pthread_mutex_unlock (&cons_lock);

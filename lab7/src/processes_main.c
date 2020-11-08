@@ -26,7 +26,7 @@
  *     This can be intervened by the user to change the position of the hare or the turtle
  *     at any point in time.
  *     How it works:
- *     The god polls the console for input, the user can press the enter key which will block
+ *     The god polls the console for input, the user can press any key to block
  *     all other process and the god process can now continue with repositioning, after which this
  *     change will be notified to the hare and turtle process through the reporter.
  *
@@ -107,7 +107,6 @@ int main(int argc, char **argv) {
 		close(a2r[i]);
 		close(a2t[i]);
 		close(a2h[i]);
-		close(a2g[i]);
 	}
 	return 0;
 }

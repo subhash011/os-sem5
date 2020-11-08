@@ -6,7 +6,7 @@
 /*
  * turtle function for simulation using processes
  * */
-void turtle_proc() {
+void turtle_proc(void) {
 	close(a2t_write);
 	close(a2r_read);
 	for(;;) {
@@ -23,7 +23,7 @@ void turtle_proc() {
 /*
  * turtle function for simulation using threads
  * */
-void *turtle_thread() {
+void *turtle_thread(void* args) {
 	while(!turt_completed) {
 		pthread_mutex_lock (&race_lock);
 		race -> turt_pos += race -> turt_speed;

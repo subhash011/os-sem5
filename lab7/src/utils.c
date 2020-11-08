@@ -6,7 +6,7 @@
  *  This can be called to initialise the race structure.
  *  The explanations of the variables are in the race.h file.
  * */
-void init_race() {
+void init_race(void) {
 	race = (struct Race*) malloc(sizeof(struct Race));
 	race -> hare_speed = HARE_SPEED;
 	race -> turt_speed = TURT_SPEED;
@@ -24,7 +24,7 @@ void init_race() {
 /*
  *  prints the state of the race when called.
  * */
-void print_race() {
+void print_race(void) {
 	printf("Hare pos: %ld, Turtle pos: %ld, Hare speed: %ld, Turtle speed: %ld\n",
 	       race -> hare_pos, race -> turt_pos, race -> hare_speed, race -> turt_speed);
 }
@@ -66,7 +66,9 @@ int kbhit(void)
 void take_input() {
 	char conf , who;
 	long newpos;
-	getchar();
+	if(getchar() != '\n') {
+		printf("\n");
+	}
 	while(1) {
 		printf("Do you want to change the race state ? [Y/n] ");
 		conf = getchar();

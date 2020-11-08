@@ -6,7 +6,7 @@
 /*
  * reporter function for simulation using processes
  * */
-void reporter_proc() {
+void reporter_proc(void) {
 	close(a2h_read);
 	close(a2t_read);
 	close(a2g_read);
@@ -15,7 +15,7 @@ void reporter_proc() {
 	race -> turt_pos = 0;
 	race -> hare_time = 0;
 	race -> turt_time = 0;
-	print_race(race);
+	print_race();
 	usleep(race -> print_interval);
 	Race *t = (Race*) malloc(sizeof(Race));
 	Race *h = (Race*) malloc(sizeof(Race));
@@ -35,7 +35,7 @@ void reporter_proc() {
 		}
 		race -> hare_pos = h -> hare_pos;
 		race -> hare_time = h -> hare_time;
-		print_race(race);
+		print_race();
 		if(turt_completed) {
 			race -> winner = TURTLE;
 			break;
@@ -47,7 +47,7 @@ void reporter_proc() {
 		read(a2r_read, race, sizeof(Race));
 		if(race -> god_intervened) {
 			race -> god_intervened = false;
-			print_race(race);
+			print_race();
 			usleep(race -> print_interval);
 		}
 	}
@@ -63,17 +63,17 @@ void reporter_proc() {
 /*
  * reporter function for simulation using threads
  * */
-void *reporter_thread() {
+void *reporter_thread(void* args) {
 	Race *prev_state = (Race *) malloc(sizeof(Race));
 	while(!hare_completed || !turt_completed) {
 		pthread_mutex_lock (&cons_lock);
 		usleep(race -> print_interval);
 		if(race_state_changed) {
-			print_race(race);
+			print_race();
 		}
 		*prev_state = *race;
 		pthread_mutex_unlock (&cons_lock);
 	}
-	print_race(race);
+	print_race();
 	pthread_exit(NULL);
 }
