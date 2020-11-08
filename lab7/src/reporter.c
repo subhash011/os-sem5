@@ -11,10 +11,7 @@ void reporter_proc(void) {
 	close(a2t_read);
 	close(a2g_read);
 	close(a2r_write);
-	race -> hare_pos = 0;
-	race -> turt_pos = 0;
-	race -> hare_time = 0;
-	race -> turt_time = 0;
+	start_race();
 	print_race();
 	usleep(race -> print_interval);
 	Race *t = (Race*) malloc(sizeof(Race));
@@ -65,6 +62,7 @@ void reporter_proc(void) {
  * */
 void *reporter_thread(void* args) {
 	Race *prev_state = (Race *) malloc(sizeof(Race));
+	start_race();
 	while(!hare_completed || !turt_completed) {
 		pthread_mutex_lock (&cons_lock);
 		usleep(race -> print_interval);

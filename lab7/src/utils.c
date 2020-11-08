@@ -10,23 +10,36 @@ void init_race(void) {
 	race = (struct Race*) malloc(sizeof(struct Race));
 	race -> hare_speed = HARE_SPEED;
 	race -> turt_speed = TURT_SPEED;
-	race -> hare_pos = 0;
-	race -> turt_pos = 0;
-	race -> hare_time = 0;
-	race -> turt_time = 0;
 	race -> distance = RACE_DIST;
 	race -> dist_threshold = MAX_GAP;
-	race -> winner = 0;
 	race -> hare_slept = false;
 	race -> print_interval = PRINT_INTERVAL;
 	race -> god_intervened = false;
 }
+
+/*
+ * This function is called by the reporter to start the race.
+ * */
+void start_race(void) {
+	race -> hare_pos = 0;
+	race -> turt_pos = 0;
+	race -> hare_time = 0;
+	race -> turt_time = 0;
+	race -> winner = 0;
+	printf("=============== Race Starts ===============\n");
+	printf("Race Distance: %ld\n", race -> distance);
+	printf("Hare Speed: %ld\n", race -> hare_speed);
+	printf("Turtle Speed: %ld\n", race -> turt_speed);
+	printf("===========================================\n\n");
+	usleep(race -> print_interval);
+}
+
 /*
  *  prints the state of the race when called.
  * */
 void print_race(void) {
-	printf("Hare pos: %ld, Turtle pos: %ld, Hare speed: %ld, Turtle speed: %ld\n",
-	       race -> hare_pos, race -> turt_pos, race -> hare_speed, race -> turt_speed);
+	printf("Hare pos: (%ld / %ld), Turtle pos: (%ld / %ld)\n",
+	       race -> hare_pos, race -> distance, race -> turt_pos, race -> distance);
 }
 
 /*

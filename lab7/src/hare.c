@@ -41,10 +41,10 @@ void *hare_thread(void* args) {
 			usleep(sleeptime);
 			race -> hare_time += sleeptime;
 		}
-		pthread_mutex_lock (&race_lock);
+		pthread_mutex_lock (&hare_lock);
 		race -> hare_pos += race -> hare_speed;
 		race -> hare_time++;
-		pthread_mutex_unlock (&race_lock);
+		pthread_mutex_unlock (&hare_lock);
 	}
 	pthread_exit(NULL);
 }

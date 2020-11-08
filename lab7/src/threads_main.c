@@ -45,27 +45,31 @@ int main() {
 	memset(tid, 0, sizeof(tid));
 	memset(tid, 0, sizeof(tid));
 	init_race();
-	race -> distance = 1e8;
+	race -> distance = 1e12;
 	race -> dist_threshold = 1e3;
 	race -> print_interval = 0;
-	if(pthread_mutex_init(&race_lock, NULL) != 0) {
-		printf("Initializing mutex for race structure failed! Exiting.\n");
+	if(pthread_mutex_init(&hare_lock, NULL) != 0) {
+		printf("Initializing mutex for hare failed! Exiting.\n");
+		return 0;
+	}
+	if(pthread_mutex_init(&turt_lock, NULL) != 0) {
+		printf("Initializing mutex for turtle failed! Exiting.\n");
 		return 0;
 	}
 	if(pthread_mutex_init(&cons_lock, NULL) != 0) {
 		printf("Initializing mutex for console failed! Exiting.\n");
 		return 0;
 	}
-
-	pthread_create (&tid[TURTLE], NULL, turtle_thread, NULL);
-	pthread_create (&tid[HARE], NULL, hare_thread, NULL);
 	pthread_create (&tid[REPORT], NULL, reporter_thread, NULL);
+	sleep(1); // let the reporter thread run first so that it can start the race.
 	pthread_create (&tid[GOD], NULL, god_thread, NULL);
+	pthread_create (&tid[HARE], NULL, hare_thread, NULL);
+	pthread_create (&tid[TURTLE], NULL, turtle_thread, NULL);
 
-	pthread_join (tid[TURTLE], NULL);
-	pthread_join (tid[HARE], NULL);
 	pthread_join (tid[REPORT], NULL);
 	pthread_join (tid[GOD], NULL);
+	pthread_join (tid[HARE], NULL);
+	pthread_join (tid[TURTLE], NULL);
 
 	printf("Hare's stats: (%ld in %ld)\nTurtle's stats: (%ld in %ld)\n", race -> hare_pos, race -> hare_time, race -> turt_pos, race -> turt_time);
 

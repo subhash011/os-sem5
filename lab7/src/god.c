@@ -33,11 +33,13 @@ void god_proc(void) {
 void *god_thread(void* args) {
 	while(!hare_completed || !turt_completed) {
 		pthread_mutex_lock (&cons_lock);
-		pthread_mutex_lock (&race_lock);
+		pthread_mutex_lock (&hare_lock);
+		pthread_mutex_lock (&turt_lock);
 		if(kbhit()) {
 			take_input();
 		}
-		pthread_mutex_unlock (&race_lock);
+		pthread_mutex_unlock (&turt_lock);
+		pthread_mutex_unlock (&hare_lock);
 		pthread_mutex_unlock (&cons_lock);
 
 	}

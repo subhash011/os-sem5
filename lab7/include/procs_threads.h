@@ -4,18 +4,10 @@
 #include "./standard.h"
 #include "./race.h"
 
-typedef struct Thread_args Thread_args;
-
 pthread_t tid[4];
-pthread_mutex_t race_lock;
+pthread_mutex_t hare_lock;
+pthread_mutex_t turt_lock;
 pthread_mutex_t cons_lock;
-
-struct Thread_args {
-	pthread_mutex_t race_lock;
-	pthread_mutex_t cons_lock;
-	pthread_cond_t god_wait;
-	Race **race;
-};
 
 void god_proc(void);
 void hare_proc(void);

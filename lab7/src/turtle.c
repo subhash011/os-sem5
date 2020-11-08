@@ -25,10 +25,10 @@ void turtle_proc(void) {
  * */
 void *turtle_thread(void* args) {
 	while(!turt_completed) {
-		pthread_mutex_lock (&race_lock);
+		pthread_mutex_lock (&turt_lock);
 		race -> turt_pos += race -> turt_speed;
 		race -> turt_time++;
-		pthread_mutex_unlock (&race_lock);
+		pthread_mutex_unlock (&turt_lock);
 	}
 	pthread_exit(NULL);
 }

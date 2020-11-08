@@ -44,4 +44,6 @@ int kbhit(void);
 
 void take_input(void);
 
+void start_race(void);
+
 #endif
