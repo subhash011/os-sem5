@@ -35,13 +35,15 @@ void hare_proc(void) {
  * */
 void *hare_thread(void* args) {
 	srand(time(0));
+	long prev_turt_pos;
 	while(!hare_completed) {
-		if(hare_should_sleep) {
-			int sleeptime = ((rand() % 3) + 1) * (race -> print_interval == 0 ? 1 : race -> print_interval);
-			usleep(sleeptime);
-			race -> hare_time += sleeptime;
-		}
 		pthread_mutex_lock (&hare_lock);
+		if(hare_should_sleep) {
+			prev_turt_pos = race -> turt_pos;
+			long sleeptime = ((rand() % 500000000) + 1) * (race -> print_interval == 0 ? 1 : race -> print_interval);
+			nanosleep((const struct timespec[]){{0, sleeptime}}, NULL);
+			race -> hare_time += (race -> turt_pos - prev_turt_pos) * race -> turt_speed;
+		}
 		race -> hare_pos += race -> hare_speed;
 		race -> hare_time++;
 		pthread_mutex_unlock (&hare_lock);

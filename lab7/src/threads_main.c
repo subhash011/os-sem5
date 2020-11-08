@@ -45,7 +45,7 @@ int main() {
 	memset(tid, 0, sizeof(tid));
 	memset(tid, 0, sizeof(tid));
 	init_race();
-	race -> distance = 1e12;
+	race -> distance = 1e8;
 	race -> dist_threshold = 1e3;
 	race -> print_interval = 0;
 	if(pthread_mutex_init(&hare_lock, NULL) != 0) {
@@ -71,14 +71,5 @@ int main() {
 	pthread_join (tid[HARE], NULL);
 	pthread_join (tid[TURTLE], NULL);
 
-	printf("Hare's stats: (%ld in %ld)\nTurtle's stats: (%ld in %ld)\n", race -> hare_pos, race -> hare_time, race -> turt_pos, race -> turt_time);
-
-	if (turt_won) {
-		printf("Winner: Turtle\n");
-	} else if (hare_won) {
-		printf("Winner: Hare\n");
-	} else {
-		printf("Race Tied\n");
-	}
 	return 0;
 }

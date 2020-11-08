@@ -44,6 +44,11 @@ int kbhit(void);
 
 void take_input(void);
 
+/*
+ * prints the final result of the race
+ * */
+void print_result(bool);
+
 void start_race(void);
 
 #endif

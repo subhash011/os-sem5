@@ -51,7 +51,7 @@ void reporter_proc(void) {
 	write(a2g_write, race, sizeof(Race));
 	write(a2h_write, race, sizeof(Race));
 	write(a2t_write, race, sizeof(Race));
-	printf("Winner: %s\n", race -> winner == 1 ? "Hare" : "Turtle");
+	print_result(false);
 	close(a2h_write);
 	close(a2t_write);
 	close(a2r_read);
@@ -73,5 +73,6 @@ void *reporter_thread(void* args) {
 		pthread_mutex_unlock (&cons_lock);
 	}
 	print_race();
+	print_result(true);
 	pthread_exit(NULL);
 }
