@@ -36,7 +36,9 @@ void *god_thread(void* args) {
 		pthread_mutex_lock (&hare_lock);
 		pthread_mutex_lock (&turt_lock);
 		if(kbhit()) {
-			take_input();
+			if(!hare_completed || !turt_completed) {
+				take_input();
+			}
 		}
 		pthread_mutex_unlock (&turt_lock);
 		pthread_mutex_unlock (&hare_lock);

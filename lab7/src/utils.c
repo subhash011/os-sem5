@@ -30,6 +30,7 @@ void start_race(void) {
 	printf("Race Distance: %ld\n", race -> distance);
 	printf("Hare Speed: %ld\n", race -> hare_speed);
 	printf("Turtle Speed: %ld\n", race -> turt_speed);
+	printf("Race will start in %ld seconds\n", (long)(START_DELAY/1e6));
 	printf("===========================================\n\n");
 	usleep(race -> print_interval);
 }
@@ -37,12 +38,11 @@ void start_race(void) {
 void print_result(void) {
 	printf("\n=============== Race Ends ===============\n");
 	printf("Hare's stats: (%ld in %ld)\nTurtle's stats: (%ld in %ld)\n", race -> hare_pos, race -> hare_time, race -> turt_pos, race -> turt_time);
-	if (turt_won) {
-		printf("Winner: Turtle\n");
-	} else if (hare_won) {
-		printf("Winner: Hare\n");
+	char *winner = race -> winner == HARE ? "Hare" : "Turtle";
+	if(race -> winner == 0) {
+		printf("Race Tied.\n");
 	} else {
-		printf("Race Tied\n");
+		printf("Winner: %s\n", winner);
 	}
 	printf("==========================================\n");
 }

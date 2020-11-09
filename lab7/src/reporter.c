@@ -12,6 +12,8 @@ void reporter_proc(void) {
 	close(a2g_read);
 	close(a2r_write);
 	start_race();
+	long remsleep = START_DELAY - race -> print_interval;
+	if(remsleep > 0) usleep(remsleep);
 	print_race();
 	usleep(race -> print_interval);
 	Race *t = (Race*) malloc(sizeof(Race));
@@ -51,6 +53,8 @@ void reporter_proc(void) {
 	write(a2g_write, race, sizeof(Race));
 	write(a2h_write, race, sizeof(Race));
 	write(a2t_write, race, sizeof(Race));
+	if(race -> hare_pos >= race -> distance && race -> turt_pos >= race -> distance )
+		race -> winner = 0;
 	print_result();
 	close(a2h_write);
 	close(a2t_write);
@@ -73,6 +77,17 @@ void *reporter_thread(void* args) {
 		pthread_mutex_unlock (&cons_lock);
 	}
 	print_race();
+	/*
+	 * lock not needed to update race here because
+	 * all other threads would have exited by now.
+	 * */
+	if(hare_won) {
+		race -> winner = HARE;
+	} else if (turt_won) {
+		race -> winner = TURTLE;
+	} else {
+		race -> winner = 0;
+	}
 	print_result();
 	pthread_exit(NULL);
 }

@@ -6,6 +6,7 @@
 #define RACE_DIST 100
 #define MAX_GAP 10
 #define PRINT_INTERVAL 5e5
+#define START_DELAY 2e6
 
 #define a2r_read a2r[0]
 #define a2r_write a2r[1]

@@ -61,7 +61,7 @@ int main() {
 		return 0;
 	}
 	pthread_create (&tid[REPORT], NULL, reporter_thread, NULL);
-	sleep(1); // let the reporter thread run first so that it can start the race.
+	usleep(START_DELAY); // let the reporter thread run first so that it can start the race.
 	pthread_create (&tid[GOD], NULL, god_thread, NULL);
 	pthread_create (&tid[HARE], NULL, hare_thread, NULL);
 	pthread_create (&tid[TURTLE], NULL, turtle_thread, NULL);
