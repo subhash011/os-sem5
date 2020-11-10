@@ -3,6 +3,14 @@
 #include "../include/params.h"
 #include "../include/standard.h"
 
+void handle_sleep(int signum) {
+	race -> hare_slept = true;
+}
+
+void handle_wakeup(int signum) {
+	race -> hare_slept = false;
+}
+
 /*
  * reporter function for simulation using processes
  * */
@@ -19,6 +27,8 @@ void reporter_proc(void) {
 	Race *t = (Race*) malloc(sizeof(Race));
 	Race *h = (Race*) malloc(sizeof(Race));
 	Race *g = (Race*) malloc(sizeof(Race));
+	signal(SIGUSR1, handle_sleep);
+	signal(SIGUSR2, handle_wakeup);
 	int itr = 0;
 	for(;;) {
 		write(a2t_write, race, sizeof(Race));

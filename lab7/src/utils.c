@@ -1,6 +1,7 @@
 #include "../include/race.h"
 #include "../include/standard.h"
 #include "../include/params.h"
+#include "../include/procs_threads.h"
 
 /*
  *  This can be called to initialise the race structure.
@@ -90,12 +91,34 @@ int kbhit(void)
  *  it sets god_intervened to true.
  * */
 void take_input() {
-	char conf , who;
+	char conf , who, to_wake;
 	long newpos;
 	if(getchar() != '\n') {
 		printf("\n");
 	}
 	while(1) {
+		if(race -> hare_slept) {
+			while(1) {
+				printf("Hare is sleeping, do you want to wake the hare up ? [Y/n] ");
+				to_wake = getchar();
+				if(to_wake == 'y' || to_wake == 'Y') {
+					pthread_cond_signal(&hare_wakeup);
+					getchar();
+					break;
+				} else if (to_wake == 'n' || to_wake == 'N') {
+					getchar();
+					break;
+				} else {
+					if(to_wake == '\n') {
+						printf("Invalid option, select [Y] or [N]\n");
+						ungetc('\n', stdin);
+					} else {
+						printf("[%c] is an invalid option, select [Y] or [N]\n", conf);
+					}
+				}
+				getchar();
+			}
+		}
 		printf("Do you want to change the race state ? [Y/n] ");
 		conf = getchar();
 		if(conf == 'Y' || conf == 'y') {

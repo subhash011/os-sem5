@@ -41,6 +41,8 @@
 #include "../include/params.h"
 #include "../include/procs_threads.h"
 
+
+
 int main() {
 	memset(tid, 0, sizeof(tid));
 	memset(tid, 0, sizeof(tid));
@@ -58,6 +60,10 @@ int main() {
 	}
 	if(pthread_mutex_init(&cons_lock, NULL) != 0) {
 		printf("Initializing mutex for console failed! Exiting.\n");
+		return 0;
+	}
+	if(pthread_cond_init(&hare_wakeup, NULL) != 0) {
+		printf("Initializing condition varaible for waking up hare failed.\n");
 		return 0;
 	}
 	pthread_create (&tid[REPORT], NULL, reporter_thread, NULL);

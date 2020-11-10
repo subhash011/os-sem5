@@ -8,6 +8,7 @@ pthread_t tid[4];
 pthread_mutex_t hare_lock;
 pthread_mutex_t turt_lock;
 pthread_mutex_t cons_lock;
+pthread_cond_t hare_wakeup;
 
 void god_proc(void);
 void hare_proc(void);
