@@ -26,10 +26,12 @@ void hare_proc(void) {
 				race -> hare_slept = false;
 				race -> hare_pos += race -> hare_speed;
 			}
-		} else if(hare_should_sleep) {
+		} else if(hare_should_sleep && (!race -> god_woke_hare)) {
 			race -> hare_slept = true;
-			multiplier = (rand() % (2* race -> dist_threshold/race -> turt_speed));
+			// this gives a random chance for the turtle to overtake the hare.
+			multiplier = (rand() % (2* (race -> hare_pos - race -> turt_pos)/race -> turt_speed));
 		} else {
+			race -> god_woke_hare = false;
 			race -> hare_pos += race -> hare_speed;
 		}
 		race -> hare_time++;

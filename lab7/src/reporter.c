@@ -37,6 +37,7 @@ void reporter_proc(void) {
 		race -> turt_time = t -> turt_time;
 		write(a2h_write, race, sizeof(Race));
 		read(a2r_read, h, sizeof(Race));
+		race -> god_woke_hare = h -> god_woke_hare;
 		race -> hare_pos = h -> hare_pos;
 		race -> hare_time = h -> hare_time;
 		race -> hare_slept = h -> hare_slept;

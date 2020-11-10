@@ -16,6 +16,7 @@ void init_race(void) {
 	race -> hare_slept = false;
 	race -> print_interval = PRINT_INTERVAL;
 	race -> god_intervened = false;
+	race -> god_woke_hare = false;
 }
 
 /*
@@ -93,8 +94,9 @@ void wake_hare_proc() {
 		printf("Hare is sleeping, do you want to wake the hare up ? [Y/n] ");
 		to_wake = getchar();
 		if(to_wake == 'y' || to_wake == 'Y') {
-			race -> hare_slept = false;
 			getchar();
+			race -> hare_slept = false;
+			race -> god_woke_hare = true;
 			break;
 		} else if (to_wake == 'n' || to_wake == 'N') {
 			getchar();
@@ -117,8 +119,9 @@ void wake_hare_thread() {
 		printf("Hare is sleeping, do you want to wake the hare up ? [Y/n] ");
 		to_wake = getchar();
 		if(to_wake == 'y' || to_wake == 'Y') {
-			pthread_cond_signal(&hare_wakeup);
 			getchar();
+			pthread_cond_signal(&hare_wakeup);
+			race -> god_woke_hare = true;
 			break;
 		} else if (to_wake == 'n' || to_wake == 'N') {
 			getchar();

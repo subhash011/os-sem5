@@ -25,6 +25,7 @@ struct Race {
 	int winner; // stores the winner of the race
 	long print_interval; // represents a unit time in program.
 	bool god_intervened; // the reporter process if the god has intervened.
+	bool god_woke_hare;
 };
 
 Race *race;
