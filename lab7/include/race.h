@@ -42,7 +42,7 @@ void init_race(void);
 
 int kbhit(void);
 
-void take_input(void);
+void take_input(bool);
 
 /*
  * prints the final result of the race

@@ -86,11 +86,60 @@ int kbhit(void)
 	return 0;
 }
 
+
+void wake_hare_proc() {
+	char to_wake;
+	while(1) {
+		printf("Hare is sleeping, do you want to wake the hare up ? [Y/n] ");
+		to_wake = getchar();
+		if(to_wake == 'y' || to_wake == 'Y') {
+			race -> hare_slept = false;
+			getchar();
+			break;
+		} else if (to_wake == 'n' || to_wake == 'N') {
+			getchar();
+			break;
+		} else {
+			if(to_wake == '\n') {
+				printf("Invalid option, select [Y] or [N]\n");
+				ungetc('\n', stdin);
+			} else {
+				printf("[%c] is an invalid option, select [Y] or [N]\n", to_wake);
+			}
+		}
+		getchar();
+	}
+}
+
+void wake_hare_thread() {
+	char to_wake;
+	while(1) {
+		printf("Hare is sleeping, do you want to wake the hare up ? [Y/n] ");
+		to_wake = getchar();
+		if(to_wake == 'y' || to_wake == 'Y') {
+			pthread_cond_signal(&hare_wakeup);
+			getchar();
+			break;
+		} else if (to_wake == 'n' || to_wake == 'N') {
+			getchar();
+			break;
+		} else {
+			if(to_wake == '\n') {
+				printf("Invalid option, select [Y] or [N]\n");
+				ungetc('\n', stdin);
+			} else {
+				printf("[%c] is an invalid option, select [Y] or [N]\n", to_wake);
+			}
+		}
+		getchar();
+	}
+}
+
 /*
  *  this function can be called to take input from the god process.
  *  it sets god_intervened to true.
  * */
-void take_input() {
+void take_input(bool is_thread) {
 	char conf , who, to_wake;
 	long newpos;
 	if(getchar() != '\n') {
@@ -98,25 +147,10 @@ void take_input() {
 	}
 	while(1) {
 		if(race -> hare_slept) {
-			while(1) {
-				printf("Hare is sleeping, do you want to wake the hare up ? [Y/n] ");
-				to_wake = getchar();
-				if(to_wake == 'y' || to_wake == 'Y') {
-					pthread_cond_signal(&hare_wakeup);
-					getchar();
-					break;
-				} else if (to_wake == 'n' || to_wake == 'N') {
-					getchar();
-					break;
-				} else {
-					if(to_wake == '\n') {
-						printf("Invalid option, select [Y] or [N]\n");
-						ungetc('\n', stdin);
-					} else {
-						printf("[%c] is an invalid option, select [Y] or [N]\n", conf);
-					}
-				}
-				getchar();
+			if(is_thread) {
+				wake_hare_thread();
+			}  else {
+				wake_hare_proc();
 			}
 		}
 		printf("Do you want to change the race state ? [Y/n] ");

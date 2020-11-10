@@ -10,22 +10,29 @@ void hare_proc(void) {
 	close(a2h_write);
 	close(a2r_read);
 	srand(time(0));
+	int multiplier;
 	for(;;) {
 		read(a2h_read, race, sizeof(Race));
 		if(race -> winner != 0) break;
 		// if hare is far ahead in the race, let it sleep
-		if(hare_should_sleep) {
+		// since sleep is blocking, here the counter was
+		// stopped from incrementing until hare sleeps the
+		// random amount of time or the god wakes up
+		// the hare.
+		if(race -> hare_slept) {
+			if(multiplier > 0) {
+				multiplier--;
+			} else {
+				race -> hare_slept = false;
+				race -> hare_pos += race -> hare_speed;
+			}
+		} else if(hare_should_sleep) {
 			race -> hare_slept = true;
-//			kill(pid[REPORT], SIGUSR1);
-			int multiplier = (rand() % (2* race -> dist_threshold/race -> turt_speed)) + 1;
-			race -> turt_pos += race -> turt_speed * multiplier;
-			race -> turt_time += multiplier;
-			race -> hare_time += multiplier;
-//			kill(pid[REPORT], SIGUSR1);
+			multiplier = (rand() % (2* race -> dist_threshold/race -> turt_speed));
 		} else {
 			race -> hare_pos += race -> hare_speed;
-			race -> hare_time++;
 		}
+		race -> hare_time++;
 		write(a2r_write, race, sizeof(Race));
 	}
 	close(a2h_read);

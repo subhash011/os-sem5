@@ -33,17 +33,13 @@ void reporter_proc(void) {
 	for(;;) {
 		write(a2t_write, race, sizeof(Race));
 		read(a2r_read, t, sizeof(Race));
+		race -> turt_pos = t -> turt_pos;
+		race -> turt_time = t -> turt_time;
 		write(a2h_write, race, sizeof(Race));
 		read(a2r_read, h, sizeof(Race));
-		if(h -> hare_slept) {
-			race -> turt_pos = h -> turt_pos;
-			race -> turt_time = h -> turt_time;
-		} else {
-			race -> turt_pos = t -> turt_pos;
-			race -> turt_time = t -> turt_time;
-		}
 		race -> hare_pos = h -> hare_pos;
 		race -> hare_time = h -> hare_time;
+		race -> hare_slept = h -> hare_slept;
 		print_race();
 		if(turt_completed) {
 			race -> winner = TURTLE;

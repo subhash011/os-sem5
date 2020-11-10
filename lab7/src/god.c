@@ -17,7 +17,7 @@ void god_proc(void) {
 		usleep(race -> print_interval);
 		// if user has pressed a key, consider repositioning
 		if(kbhit()) {
-			take_input();
+			take_input(false);
 		} else {
 			race -> god_intervened = false;
 		}
@@ -37,7 +37,7 @@ void *god_thread(void* args) {
 		pthread_mutex_lock (&turt_lock);
 		if(kbhit()) {
 			if(!hare_completed || !turt_completed) {
-				take_input();
+				take_input(true);
 			}
 		}
 		pthread_mutex_unlock (&turt_lock);
