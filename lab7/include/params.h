@@ -4,7 +4,7 @@
 #define HARE_SPEED 5
 #define TURT_SPEED 1
 #define RACE_DIST 1e2
-#define MAX_GAP 20
+#define MAX_GAP 10
 #define PRINT_INTERVAL 5e5
 #define START_DELAY 2e6
 
