@@ -75,8 +75,8 @@ void *reporter_thread(void* args) {
 	Race *prev_state = (Race *) malloc(sizeof(Race));
 	start_race();
 	while(!hare_completed || !turt_completed) {
-		pthread_mutex_lock (&cons_lock);
 		usleep(race -> print_interval);
+		pthread_mutex_lock (&cons_lock);
 		if(race_state_changed) {
 			print_race();
 		}

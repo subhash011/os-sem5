@@ -30,6 +30,9 @@ void hare_proc(void) {
 			race -> hare_slept = true;
 			// this gives a random chance for the turtle to overtake the hare.
 			multiplier = (rand() % (2* (race -> hare_pos - race -> turt_pos)/race -> turt_speed));
+			printf("============================================\n");
+		    printf("Hare will sleep till turtle reaches %ld\n", race -> turt_pos + (multiplier * race-> turt_speed));
+		    printf("============================================\n");
 		} else {
 			race -> god_woke_hare = false;
 			race -> hare_pos += race -> hare_speed;
@@ -41,15 +44,27 @@ void hare_proc(void) {
 	close(a2r_write);
 }
 
+void err(int val) {
+	printf("%d\n", val);
+	switch(val) {
+		case ETIMEDOUT:
+			printf("timeout\n");
+			break;
+		case EINVAL:
+			printf("Invalid abstime\n");
+	}
+}
+
 /*
  * hare function for simulation using threads
  * */
 void *hare_thread(void* args) {
 	srand(time(0));
+	long prev_turt_pos, sleeptime, secs, nsecs;
 	struct timespec wait_time;
 	struct timeval now;
-	long prev_turt_pos;
 	while(!hare_completed) {
+		usleep(race -> print_interval);
 		/*
 		 * sleep within the lock is unavoidable since pthread_con_timedwait
 		 * needs a lock to be held, and this is a clean way for the god to
@@ -58,11 +73,16 @@ void *hare_thread(void* args) {
 		pthread_mutex_lock (&hare_lock);
 		if(hare_should_sleep) {
 			prev_turt_pos = race -> turt_pos;
-			long sleeptime = ((rand() % 500000) + 1) * (race -> print_interval == 0 ? 1 : race -> print_interval);
+			sleeptime = ((rand() % (2 * race -> print_interval * ((race -> hare_pos - race -> turt_pos)/race -> turt_speed))) + 1e6);
+			secs = (sleeptime / 1000000);
+			nsecs = (sleeptime % 1000000) * 1000;
 			gettimeofday(&now, NULL);
-			wait_time.tv_sec = now.tv_sec;
-			wait_time.tv_nsec = (now.tv_usec + sleeptime) * 1000;
+			wait_time.tv_sec = now.tv_sec + secs;
+			wait_time.tv_nsec = now.tv_usec * 1000;
 			race -> hare_slept = true;
+			printf("============================================\n");
+			printf("Hare will sleep for approx. %ld s\n", secs);
+			printf("============================================\n");
 			pthread_cond_timedwait(&hare_wakeup, &hare_lock, &wait_time);
 			race -> hare_slept = false;
 			// time in the simulated world is not the same as real world

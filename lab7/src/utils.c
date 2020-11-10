@@ -28,10 +28,11 @@ void start_race(void) {
 	race -> hare_time = 0;
 	race -> turt_time = 0;
 	race -> winner = 0;
-	printf("=============== Race Starts ===============\n");
+	printf("\n=============== Race Starts ===============\n");
 	printf("Race Distance: %ld\n", race -> distance);
 	printf("Hare Speed: %ld\n", race -> hare_speed);
 	printf("Turtle Speed: %ld\n", race -> turt_speed);
+	printf("One iteration is approximately %.2f seconds\n", race -> print_interval / 1e6);
 	printf("Race will start in %ld seconds\n", (long)(START_DELAY/1e6));
 	printf("===========================================\n\n");
 	usleep(race -> print_interval);
