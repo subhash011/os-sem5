@@ -3,7 +3,7 @@
 
 #define HARE_SPEED 5
 #define TURT_SPEED 1
-#define RACE_DIST 1e2
+#define RACE_DIST 100
 #define MAX_GAP 10
 #define PRINT_INTERVAL 5e5
 #define START_DELAY 2e6
@@ -17,6 +17,7 @@
 #define a2h_read a2h[0]
 #define a2h_write a2h[1]
 
+#define turt_catch_up (race -> hare_pos - race -> turt_pos)/race -> turt_speed
 #define race_state_changed ((race -> hare_pos != prev_state -> hare_pos) || (race -> turt_pos != prev_state -> turt_pos))
 #define hare_should_sleep (race -> hare_pos - race -> turt_pos >= race -> dist_threshold)
 #define hare_won (race -> hare_time < race -> turt_time)

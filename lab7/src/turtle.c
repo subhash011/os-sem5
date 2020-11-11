@@ -31,5 +31,6 @@ void *turtle_thread(void* args) {
 		race -> turt_time++;
 		pthread_mutex_unlock (&turt_lock);
 	}
+	pthread_cond_signal(&hare_wakeup);
 	pthread_exit(NULL);
 }

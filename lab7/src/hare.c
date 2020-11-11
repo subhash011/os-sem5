@@ -10,7 +10,7 @@ void hare_proc(void) {
 	close(a2h_write);
 	close(a2r_read);
 	srand(time(0));
-	int multiplier;
+	long sleeptime;
 	for(;;) {
 		read(a2h_read, race, sizeof(Race));
 		if(race -> winner != 0) break;
@@ -20,8 +20,8 @@ void hare_proc(void) {
 		// random amount of time or the god wakes up
 		// the hare.
 		if(race -> hare_slept) {
-			if(multiplier > 0) {
-				multiplier--;
+			if(sleeptime > 0) {
+				sleeptime--;
 			} else {
 				race -> hare_slept = false;
 				race -> hare_pos += race -> hare_speed;
@@ -29,9 +29,9 @@ void hare_proc(void) {
 		} else if(hare_should_sleep && (!race -> god_woke_hare)) {
 			race -> hare_slept = true;
 			// this gives a random chance for the turtle to overtake the hare.
-			multiplier = (rand() % (2* (race -> hare_pos - race -> turt_pos)/race -> turt_speed));
+			sleeptime = (rand() % turt_catch_up) + turt_catch_up;
 			printf("============================================\n");
-		    printf("Hare will sleep till turtle reaches %ld\n", race -> turt_pos + (multiplier * race-> turt_speed));
+		    printf("Hare will sleep till turtle reaches %ld\n", race -> turt_pos + (sleeptime * race-> turt_speed));
 		    printf("============================================\n");
 		} else {
 			race -> god_woke_hare = false;
@@ -44,23 +44,12 @@ void hare_proc(void) {
 	close(a2r_write);
 }
 
-void err(int val) {
-	printf("%d\n", val);
-	switch(val) {
-		case ETIMEDOUT:
-			printf("timeout\n");
-			break;
-		case EINVAL:
-			printf("Invalid abstime\n");
-	}
-}
-
 /*
  * hare function for simulation using threads
  * */
 void *hare_thread(void* args) {
 	srand(time(0));
-	long prev_turt_pos, sleeptime, secs, nsecs;
+	long prev_turt_pos, sleeptime;
 	struct timespec wait_time;
 	struct timeval now;
 	while(!hare_completed) {
@@ -73,15 +62,15 @@ void *hare_thread(void* args) {
 		pthread_mutex_lock (&hare_lock);
 		if(hare_should_sleep) {
 			prev_turt_pos = race -> turt_pos;
-			sleeptime = ((rand() % (2 * race -> print_interval * ((race -> hare_pos - race -> turt_pos)/race -> turt_speed))) + 1e6);
-			secs = (sleeptime / 1000000);
-			nsecs = (sleeptime % 1000000) * 1000;
+			sleeptime = (rand() % turt_catch_up) + turt_catch_up;
+			sleeptime *= race -> print_interval;
+			sleeptime /= (long)1e6;
 			gettimeofday(&now, NULL);
-			wait_time.tv_sec = now.tv_sec + secs;
+			wait_time.tv_sec = now.tv_sec + sleeptime;
 			wait_time.tv_nsec = now.tv_usec * 1000;
 			race -> hare_slept = true;
 			printf("============================================\n");
-			printf("Hare will sleep for approx. %ld s\n", secs);
+			printf("Hare will sleep for approx. %ld s\n", sleeptime);
 			printf("============================================\n");
 			pthread_cond_timedwait(&hare_wakeup, &hare_lock, &wait_time);
 			race -> hare_slept = false;
