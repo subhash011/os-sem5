@@ -13,7 +13,8 @@
  *  1. Turtle:
  *     This process updates the position of the turtle each time it gets to run.
  *  2. Hare:
- *     This process updates the position of the hare each time it gets to run.
+ *     This process updates the position of the hare each time it gets to run. If it is
+ *     ahead of the turtle by a threshold, it stops its counter for some time.
  *  3. Reported:
  *     This process prints the current status of the race only if it was not equal to the
  *     previous state. This check is important here because there is no fixed time as to when
@@ -21,7 +22,7 @@
  *     can be sure that the state changes during each call to print_race.
  *  3. God:
  *     This can be intervened by the user to change the position of the hare or the turtle
- *     at any point in time.
+ *     at any point in time or to wake sleeping hare.
  *     How it works:
  *     The god thread polls the console for input, the user can press any key to block all the
  *     other threads since the god process acquires all the locks before getting to run, after this, the

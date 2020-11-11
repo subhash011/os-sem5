@@ -17,14 +17,15 @@
  *  2. Hare:
  *     This process updates the position of the hare each time it gets to run.
  *     It receives the updated value of struct race from the reporter, updates its
- *     position and writes back to the reporter process its updated struct.
+ *     position and writes back to the reporter process its updated struct. If it is
+ *     ahead of the turtle by a threshold, it stops its counter for some time.
  *  3. Reported:
  *     This process prints the current status of the race. This is kind of a parent process
  *     as in it does all the cross communication. For ex: It notifies the position of the turtle
  *     to the hare so that it can sleep etc.
  *  3. God:
  *     This can be intervened by the user to change the position of the hare or the turtle
- *     at any point in time.
+ *     at any point in time or to wake sleeping hare.
  *     How it works:
  *     The god polls the console for input, the user can press any key to block
  *     all other process and the god process can now continue with repositioning, after which this
