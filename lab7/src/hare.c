@@ -69,9 +69,11 @@ void *hare_thread(void* args) {
 			wait_time.tv_sec = now.tv_sec + sleeptime;
 			wait_time.tv_nsec = now.tv_usec * 1000;
 			race -> hare_slept = true;
-			printf("============================================\n");
-			printf("Hare will sleep for approx. %ld s\n", sleeptime);
-			printf("============================================\n");
+			printf("================================================\n");
+			long dist_covered = sleeptime * ((long)(1e6/race -> print_interval)) * race -> turt_speed;
+			dist_covered += race -> turt_pos;
+			printf("Hare will sleep till turtle is between %ld and %ld\n", dist_covered - 1, dist_covered + 1);
+			printf("================================================\n");
 			pthread_cond_timedwait(&hare_wakeup, &hare_lock, &wait_time);
 			race -> hare_slept = false;
 			// time in the simulated world is not the same as real world

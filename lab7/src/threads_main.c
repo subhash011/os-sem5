@@ -76,5 +76,10 @@ int main() {
 	pthread_join (tid[HARE], NULL);
 	pthread_join (tid[TURTLE], NULL);
 
+	pthread_mutex_destroy(&hare_lock);
+	pthread_mutex_destroy(&turt_lock);
+	pthread_mutex_destroy(&cons_lock);
+	pthread_cond_destroy(&hare_wakeup);
+
 	return 0;
 }
