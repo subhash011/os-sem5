@@ -16,6 +16,7 @@ void turtle_proc(void) {
 		race -> turt_time++;
 		write(a2r_write, race, sizeof(Race));
 	}
+	write(a2r_write, race, sizeof(Race));
 	close(a2t_read);
 	close(a2r_write);
 }

@@ -40,6 +40,7 @@ void hare_proc(void) {
 		race -> hare_time++;
 		write(a2r_write, race, sizeof(Race));
 	}
+	write(a2r_write, race, sizeof(Race));
 	close(a2h_read);
 	close(a2r_write);
 }

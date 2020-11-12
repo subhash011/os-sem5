@@ -53,6 +53,11 @@ void reporter_proc(void) {
 		read(a2r_read, race, sizeof(Race));
 		if(race -> god_intervened) {
 			race -> god_intervened = false;
+			if(turt_completed) {
+				race -> winner = TURTLE;
+			} else if(hare_completed) {
+				race -> winner = HARE;
+			}
 			print_race();
 			usleep(race -> print_interval);
 		}
