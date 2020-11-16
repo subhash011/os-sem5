@@ -48,6 +48,16 @@
        the pages are absent or the address cannot be accessed in the user mode.
        The physical address is put into the variable pa, the virtual address is the variable va which remains unchanged.
 
+## Lab-6
+#### Aim - trace how the state of a process changes over its lifetime.
+#### Files changed (All the changes in lab6 branch, not merged to master)
+    1. proc.c - this is where all the print statements were added for tracing
+    2. console.c - to print in the wakeup function the console lock has to be released and acquire between call to wakeup which is done here.
+    3. benchmark_arith.c - arith benchmark ported onto xv6
+    4. benchmark_pipe.c - pipe benchmark ported onto xv6
+    5. benchmark_spawn.c - spawn benchmark ported onto xv6 
+    6. benchmark_syscall.c - syscall benchmark ported onto xv6
+
 ## Lab-7
 #### Aim - simulate the race from the very popular fable where a Hare and a Turtle enters a contest to see who is faster.
 #### Work done under the folder lab7/
