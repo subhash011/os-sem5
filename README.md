@@ -1,3 +1,12 @@
+## Lab-1
+#### Aim - Bash script to analyze and extract information from CSV data.
+
+## Lab-2
+#### Aim - Develop an image processor in C
+
+## Lab-3
+#### Aim - Guess a secret key byy reverse engineering an executable file.
+
 ## Lab-4
 #### Aim - add a system call getcount which gives the number of times a system call was called by the calling process.
 #### Files changed
