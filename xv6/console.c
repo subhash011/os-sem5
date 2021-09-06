@@ -220,7 +220,9 @@ consoleintr(int (*getc)(void))
         consputc(c);
         if(c == '\n' || c == C('D') || input.e == input.r+INPUT_BUF){
           input.w = input.e;
+          release(&cons.lock);
           wakeup(&input.r);
+          acquire(&cons.lock);
         }
       }
       break;

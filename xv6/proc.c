@@ -32,16 +32,37 @@ cpuid() {
   return mycpu()-cpus;
 }
 
+const char*
+getprocstate(int state) {
+  switch (state)
+  {
+    case 0:
+      return "UNUSED";
+    case 1:
+      return "EMBRYO";
+    case 2:
+      return "SLEEPING";
+    case 3:
+      return "RUNNABLE";
+    case 4:
+      return "RUNNING";
+    case 5:
+      return "ZOMBIE";
+    default:
+      return "UNKNOWN";
+  }
+}
+
 // Must be called with interrupts disabled to avoid the caller being
 // rescheduled between reading lapicid and running through the loop.
 struct cpu*
 mycpu(void)
 {
   int apicid, i;
-  
+
   if(readeflags()&FL_IF)
     panic("mycpu called with interrupts enabled\n");
-  
+
   apicid = lapicid();
   // APIC IDs are not guaranteed to be contiguous. Maybe we should have
   // a reverse map, or reserve a register to store &cpus[i].
@@ -86,14 +107,18 @@ allocproc(void)
   return 0;
 
 found:
+  cprintf("xv6: (allocproc) pid: %d - %s -> ", nextpid, getprocstate(p -> state));
   p->state = EMBRYO;
+  cprintf("%s\n", getprocstate(p -> state));
   p->pid = nextpid++;
 
   release(&ptable.lock);
 
   // Allocate kernel stack.
   if((p->kstack = kalloc()) == 0){
+    cprintf("xv6: (allocproc) pid: %d - %s -> ", nextpid, getprocstate(p -> state));
     p->state = UNUSED;
+    cprintf("%s (allocating kernel stack failed)\n", getprocstate(p -> state));
     return 0;
   }
   sp = p->kstack + KSTACKSIZE;
@@ -124,7 +149,7 @@ userinit(void)
   extern char _binary_initcode_start[], _binary_initcode_size[];
 
   p = allocproc();
-  
+
   initproc = p;
   if((p->pgdir = setupkvm()) == 0)
     panic("userinit: out of memory?");
@@ -149,6 +174,7 @@ userinit(void)
   acquire(&ptable.lock);
 
   p->state = RUNNABLE;
+  cprintf("xv6: (from userinit) pid: 1 EMBRYO -> RUNNABLE (first user process)\n");
 
   release(&ptable.lock);
 }
@@ -193,7 +219,9 @@ fork(void)
   if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz)) == 0){
     kfree(np->kstack);
     np->kstack = 0;
+    cprintf("xv6: fork() pid: %d - %s -> ", np -> pid, getprocstate(np -> state));
     np->state = UNUSED;
+    cprintf("%s\n", getprocstate(np -> state));
     return -1;
   }
   np->sz = curproc->sz;
@@ -214,7 +242,9 @@ fork(void)
 
   acquire(&ptable.lock);
 
+  cprintf("xv6: fork() pid: %d - %s -> ", pid, getprocstate(np -> state));
   np->state = RUNNABLE;
+  cprintf("%s (forked from pid: %d)\n", getprocstate(np -> state), np -> parent -> pid);
 
   release(&ptable.lock);
 
@@ -256,13 +286,16 @@ exit(void)
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->parent == curproc){
       p->parent = initproc;
-      if(p->state == ZOMBIE)
+      if(p->state == ZOMBIE) {
         wakeup1(initproc);
+      }
     }
   }
 
   // Jump into the scheduler, never to return.
+  cprintf("xv6: exit() pid: %d - %s -> ", curproc -> pid, getprocstate(curproc -> state));
   curproc->state = ZOMBIE;
+  cprintf("%s (exited)\n", getprocstate(curproc -> state));
   sched();
   panic("zombie exit");
 }
@@ -275,7 +308,7 @@ wait(void)
   struct proc *p;
   int havekids, pid;
   struct proc *curproc = myproc();
-  
+
   acquire(&ptable.lock);
   for(;;){
     // Scan through table looking for exited children.
@@ -294,7 +327,9 @@ wait(void)
         p->parent = 0;
         p->name[0] = 0;
         p->killed = 0;
+        cprintf("xv6: wait() pid: %d - %s -> ", pid, getprocstate(p -> state));
         p->state = UNUSED;
+        cprintf("%s (reaped by pid: %d)\n", getprocstate(p -> state), curproc -> pid);
         release(&ptable.lock);
         return pid;
       }
@@ -325,7 +360,7 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
-  
+
   for(;;){
     // Enable interrupts on this processor.
     sti();
@@ -341,7 +376,9 @@ scheduler(void)
       // before jumping back to us.
       c->proc = p;
       switchuvm(p);
+      cprintf("xv6: (from scheduler) pid: %d - %s -> ", p -> pid, getprocstate(p -> state));
       p->state = RUNNING;
+      cprintf("%s\n", getprocstate(p -> state));
 
       swtch(&(c->scheduler), p->context);
       switchkvm();
@@ -386,7 +423,10 @@ void
 yield(void)
 {
   acquire(&ptable.lock);  //DOC: yieldlock
-  myproc()->state = RUNNABLE;
+  struct proc *curproc = myproc();
+  cprintf("xv6: (from yield) pid: %d - %s -> ", curproc -> pid, getprocstate(curproc -> state));
+  curproc->state = RUNNABLE;
+  cprintf("%s (called on clock interrupts)\n", getprocstate(curproc -> state));
   sched();
   release(&ptable.lock);
 }
@@ -418,7 +458,7 @@ void
 sleep(void *chan, struct spinlock *lk)
 {
   struct proc *p = myproc();
-  
+
   if(p == 0)
     panic("sleep");
 
@@ -437,8 +477,14 @@ sleep(void *chan, struct spinlock *lk)
   }
   // Go to sleep.
   p->chan = chan;
+  struct proc *ch = (struct proc *) chan;
+  cprintf("xv6: sleep() pid: %d - %s -> ", p -> pid, getprocstate(p -> state));
   p->state = SLEEPING;
-
+  if(ch -> pid > 0) {
+    cprintf("%s (put to sleep on channel: %x by pid: %d)\n", getprocstate(p -> state), chan, ch -> pid);
+  } else {
+    cprintf("%s (put to sleep on channel: %x)\n", getprocstate(p -> state), chan);
+  }
   sched();
 
   // Tidy up.
@@ -454,14 +500,23 @@ sleep(void *chan, struct spinlock *lk)
 //PAGEBREAK!
 // Wake up all processes sleeping on chan.
 // The ptable lock must be held.
+
 static void
 wakeup1(void *chan)
 {
   struct proc *p;
 
-  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-    if(p->state == SLEEPING && p->chan == chan)
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if(p->state == SLEEPING && p->chan == chan) {
+      struct proc *ch = (struct proc*) chan;
+      if(ch -> pid > 0) {
+        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up all processes sleeping on channel: %x which is pid: %d)\n", p -> pid, chan, ch -> pid);
+      } else {
+        cprintf("xv6: wakeup1() pid: %d - SLEEPING -> RUNNABLE (wake up all processes sleeping on channel: %x)\n", p -> pid, chan);
+      }
       p->state = RUNNABLE;
+    }
+  }
 }
 
 // Wake up all processes sleeping on chan.
@@ -486,8 +541,11 @@ kill(int pid)
     if(p->pid == pid){
       p->killed = 1;
       // Wake process from sleep if necessary.
-      if(p->state == SLEEPING)
+      if(p->state == SLEEPING) {
+        cprintf("xv6: kill() pid: %d - %s -> ", pid, getprocstate(p -> state));
         p->state = RUNNABLE;
+        cprintf("%s (killed process)\n", getprocstate(p -> state));
+      }
       release(&ptable.lock);
       return 0;
     }
